@@ -2,7 +2,7 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { usePortfolioStore } from "@/store/portfolioStore";
-import { TrendingUp, BarChart3 } from "lucide-react";
+import { Mountain, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -19,11 +19,11 @@ export function Header() {
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md">
-                <TrendingUp className="h-5 w-5 text-white" />
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-red-600 to-white-600 flex items-center justify-center shadow-md">
+                <Mountain className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold text-slate-800">
-                JarryBank
+                JarryBank!
               </span>
             </div>
 
