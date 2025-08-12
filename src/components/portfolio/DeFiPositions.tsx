@@ -133,7 +133,7 @@ export function DeFiPositions() {
         ))}
 
         {/* Total DeFi Card */}
-        <Card className="bg-gradient-to-br from-blue-600 to-indigo-600 border-blue-500 shadow-lg">
+        <Card className="bg-linear-to-br from-blue-600 to-indigo-600 border-blue-500 shadow-lg">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-semibold text-white">Total DeFi</h4>

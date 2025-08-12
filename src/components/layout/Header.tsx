@@ -13,17 +13,17 @@ export function Header() {
   const { isConnected, totalValue } = usePortfolioStore();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white bg-opacity-95 backdrop-blur supports-[backdrop-filter]:bg-white bg-opacity-75 shadow-lg">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white bg-opacity-95 backdrop-blur-sm supports-backdrop-filter:bg-white bg-opacity-75 shadow-lg">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-red-600 to-white-600 flex items-center justify-center shadow-md">
+              <div className="h-8 w-8 rounded-lg bg-linear-to-br from-red-600 to-white-600 flex items-center justify-center shadow-md">
                 <Mountain className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold text-slate-800">
-                JarryBank!
+                JarryBank
               </span>
             </div>
 
@@ -90,7 +90,7 @@ export function Header() {
                         return (
                           <Button
                             onClick={openConnectModal}
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 shadow-md"
+                            className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 shadow-md"
                           >
                             <span>Connect</span>
                           </Button>

@@ -38,7 +38,7 @@ export default function HomePage() {
   const shouldShowPortfolio = isConnected || isDemoMode;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Header />
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -47,7 +47,7 @@ export default function HomePage() {
           <div className="text-center py-20">
             <div className="max-w-3xl mx-auto">
               <div className="mb-12">
-                <h1 className="text-6xl font-bold bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-800 bg-clip-text text-transparent mb-6">
+                <h1 className="text-6xl font-bold bg-linear-to-r from-slate-800 via-blue-800 to-indigo-800 bg-clip-text text-transparent mb-6">
                   Welcome to JarryBank
                 </h1>
                 <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
@@ -58,7 +58,7 @@ export default function HomePage() {
 
               <div className="bg-white bg-opacity-80 backdrop-blur-sm border border-white border-opacity-40 rounded-2xl shadow-xl p-10 max-w-lg mx-auto hover:bg-white hover:bg-opacity-90 hover:shadow-2xl hover:scale-105 transition-all duration-500">
                 <div className="mb-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <div className="w-20 h-20 bg-linear-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                     <svg
                       className="w-10 h-10 text-white"
                       fill="none"
@@ -82,14 +82,14 @@ export default function HomePage() {
                   <div className="text-slate-400 text-sm font-medium">or</div>
                   <button
                     onClick={handleDemoMode}
-                    className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 border-0 text-lg"
+                    className="px-10 py-4 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 border-0 text-lg"
                   >
                     🧪 Try Demo Mode
                   </button>
                 </div>
 
                 {isDemoMode && (
-                  <div className="mt-8 p-4 bg-gradient-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-xl">
+                  <div className="mt-8 p-4 bg-linear-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-xl">
                     <p className="text-amber-800 text-sm font-medium">
                       Demo mode active - showing sample portfolio data
                     </p>
@@ -102,7 +102,7 @@ export default function HomePage() {
           <>
             {/* Demo Mode Banner */}
             {isDemoMode && (
-              <div className="mb-8 p-6 bg-gradient-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-xl shadow-lg">
+              <div className="mb-8 p-6 bg-linear-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-xl shadow-lg">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <span className="text-3xl">🧪</span>
@@ -131,7 +131,7 @@ export default function HomePage() {
             {/* Portfolio Overview Section */}
             <section id="portfolio" className="mb-16">
               <h2 className="text-4xl font-bold text-slate-800 mb-10 flex items-center gap-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                   <svg
                     className="w-6 h-6 text-white"
                     fill="none"
@@ -154,7 +154,7 @@ export default function HomePage() {
             {/* DeFi Positions Section */}
             <section id="defi" className="mb-16">
               <h2 className="text-4xl font-bold text-slate-800 mb-10 flex items-center gap-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                   <svg
                     className="w-6 h-6 text-white"
                     fill="none"
@@ -177,7 +177,7 @@ export default function HomePage() {
             {/* Transaction History Section */}
             <section id="transactions" className="mb-16">
               <h2 className="text-4xl font-bold text-slate-800 mb-10 flex items-center gap-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                   <svg
                     className="w-6 h-6 text-white"
                     fill="none"
