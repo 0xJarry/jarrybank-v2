@@ -1,8 +1,8 @@
 "use client";
 
 import { usePortfolioStore } from "@/store/portfolioStore";
-import { formatCurrency, formatNumber, truncateAddress } from "@/lib/utils";
-import { RefreshCw, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
+import { formatCurrency, formatNumber } from "@/lib/utils";
+import { RefreshCw, TrendingUp, DollarSign, TrendingDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ export function PortfolioOverview() {
     }
   }, [lastUpdated]);
 
-  // Mock data for development - replace with real data fetching
+  // Mock data for development - matches image exactly
   const mockTokens = [
     {
       address: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
@@ -46,6 +46,7 @@ export function PortfolioOverview() {
       balance: "1000000000000000000",
       price: 25.5,
       value: 25.5,
+      change: 1.2,
       logoURI: "/tokens/avalanche-avax-logo.png",
       chainId: 43114,
     },
@@ -57,6 +58,7 @@ export function PortfolioOverview() {
       balance: "500000000000000000",
       price: 3200.0,
       value: 1600.0,
+      change: -0.8,
       logoURI: "/tokens/ethereum-eth-logo.png",
       chainId: 43114,
     },
@@ -69,23 +71,23 @@ export function PortfolioOverview() {
 
   return (
     <div className="space-y-6">
-      {/* Portfolio Summary Cards */}
+      {/* Portfolio Summary Cards - matches image layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Total Portfolio Value */}
-        <Card className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 shadow-lg">
+        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-300 shadow-sm hover:shadow-md">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg text-slate-700">
+              <CardTitle className="text-lg text-card-foreground font-semibold">
                 Total Value
               </CardTitle>
-              <DollarSign className="h-5 w-5 text-green-500" />
+              <DollarSign className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-slate-800 mb-2">
+            <div className="text-3xl font-bold text-card-foreground mb-2">
               {formatCurrency(totalValue || 1625.5)}
             </div>
-            <div className="flex items-center text-sm text-green-500">
+            <div className="flex items-center text-sm text-primary">
               <TrendingUp className="h-4 w-4 mr-1" />
               <span>+2.5% today</span>
             </div>
@@ -93,153 +95,134 @@ export function PortfolioOverview() {
         </Card>
 
         {/* Token Count */}
-        <Card className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 shadow-lg">
+        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-300 shadow-sm hover:shadow-md">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg text-slate-700">Tokens</CardTitle>
-              <span className="text-2xl font-bold text-slate-800">
-                {mockTokens.length}
-              </span>
+              <CardTitle className="text-lg text-card-foreground font-semibold">
+                Tokens
+              </CardTitle>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-sm text-slate-600">
+            <div className="text-3xl font-bold text-card-foreground mb-2">
+              {mockTokens.length}
+            </div>
+            <div className="text-sm text-muted-foreground">
               Across {mockTokens.length} different assets
             </div>
           </CardContent>
         </Card>
 
         {/* Last Updated */}
-        <Card className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 shadow-lg">
+        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-300 shadow-sm hover:shadow-md">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg text-slate-700">
+              <CardTitle className="text-lg text-card-foreground font-semibold">
                 Last Updated
               </CardTitle>
-              <RefreshCw className="h-5 w-5 text-blue-500" />
+              <RefreshCw className="h-5 w-5 text-primary hover:text-primary/80 cursor-pointer transition-colors" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-slate-800 mb-2">
-              {timeAgo || "Just now"}
+            <div className="text-3xl font-bold text-card-foreground mb-2">
+              {timeAgo || "14m ago"}
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleRefresh}
-              className="text-sm text-blue-500 hover:text-blue-400 p-0 h-auto"
-            >
+            <div className="text-sm text-primary cursor-pointer hover:underline">
               Refresh now
-            </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Token Balances Table */}
-      <Card className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 overflow-hidden shadow-lg">
-        <CardHeader className="px-6 py-4 border-b border-slate-200">
-          <CardTitle className="text-lg text-slate-800">
-            Token Balances
-          </CardTitle>
-        </CardHeader>
+      {/* Token Balances Table - matches image exactly */}
+      <div className="space-y-4">
+        <h3 className="text-xl font-semibold text-foreground">
+          Token Balances
+        </h3>
 
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-100 bg-opacity-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Token
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Balance
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Price
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Value
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Change
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {mockTokens.map((token, index) => (
-                  <tr
-                    key={token.address}
-                    className="hover:bg-slate-100 hover:bg-opacity-50 transition-colors"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center mr-3">
-                          {token.logoURI ? (
-                            <Image
-                              src={token.logoURI}
-                              alt={token.symbol}
-                              width={24}
-                              height={24}
-                              className="h-6 w-6 rounded-full"
-                              priority
-                            />
-                          ) : (
-                            <span className="text-xs text-slate-500">
-                              {token.symbol[0]}
-                            </span>
-                          )}
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium text-slate-800">
-                            {token.symbol}
-                          </div>
-                          <div className="text-sm text-slate-600">
-                            {token.name}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-slate-800">
-                        {formatNumber(
-                          parseFloat(token.balance) /
-                            Math.pow(10, token.decimals),
-                          4
-                        )}
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        {truncateAddress(token.address)}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
-                      {formatCurrency(token.price)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
-                      {formatCurrency(token.value)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center text-sm">
-                        {index % 2 === 0 ? (
-                          <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
-                        ) : (
-                          <TrendingDown className="h-4 w-4 text-red-500 mr-1" />
-                        )}
-                        <span
-                          className={
-                            index % 2 === 0 ? "text-green-500" : "text-red-500"
-                          }
-                        >
-                          {index % 2 === 0 ? "+1.2%" : "-0.8%"}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Table Header */}
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="grid grid-cols-5 gap-4 p-4 bg-muted/50 border-b border-border font-medium text-sm text-muted-foreground">
+            <div>TOKEN</div>
+            <div>BALANCE</div>
+            <div>PRICE</div>
+            <div>VALUE</div>
+            <div>CHANGE</div>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Table Rows */}
+          {mockTokens.map((token) => (
+            <div
+              key={token.address}
+              className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-accent/45 transition-colors"
+            >
+              {/* Token Column */}
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-full bg-muted/50 border border-border flex items-center justify-center">
+                  <Image
+                    src={token.logoURI}
+                    alt={token.symbol}
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                  />
+                </div>
+                <div>
+                  <div className="font-semibold text-card-foreground">
+                    {token.symbol}
+                  </div>
+                  <div className="text-xs text-muted-foreground font-mono">
+                    {token.address.slice(0, 6)}...{token.address.slice(-4)}
+                  </div>
+                </div>
+              </div>
+
+              {/* Balance Column */}
+              <div className="flex items-center">
+                <div className="text-card-foreground font-medium">
+                  {formatNumber(
+                    parseFloat(token.balance) / Math.pow(10, token.decimals),
+                    4
+                  )}
+                </div>
+              </div>
+
+              {/* Price Column */}
+              <div className="flex items-center">
+                <div className="text-card-foreground font-medium">
+                  {formatCurrency(token.price)}
+                </div>
+              </div>
+
+              {/* Value Column */}
+              <div className="flex items-center">
+                <div className="text-card-foreground font-medium">
+                  {formatCurrency(token.value)}
+                </div>
+              </div>
+
+              {/* Change Column */}
+              <div className="flex items-center">
+                <div
+                  className={`flex items-center text-sm font-medium ${
+                    token.change >= 0 ? "text-primary" : "text-destructive"
+                  }`}
+                >
+                  {token.change >= 0 ? (
+                    <TrendingUp className="h-4 w-4 mr-1" />
+                  ) : (
+                    <TrendingDown className="h-4 w-4 mr-1" />
+                  )}
+                  <span>
+                    {token.change >= 0 ? "+" : ""}
+                    {token.change}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

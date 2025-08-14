@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Web3Provider } from "@/components/providers/Web3Provider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Header } from "@/components/layout/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Web3Provider>{children}</Web3Provider>
+        <ThemeProvider>
+          <Web3Provider>
+            <div className="min-h-screen bg-background">
+              <Header />
+              {children}
+            </div>
+          </Web3Provider>
+        </ThemeProvider>
       </body>
     </html>
   );

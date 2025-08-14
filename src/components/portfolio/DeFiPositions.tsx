@@ -1,7 +1,13 @@
 "use client";
 
 import { formatCurrency } from "@/lib/utils";
-import { TrendingUp, AlertTriangle, CheckCircle } from "lucide-react";
+import {
+  TrendingUp,
+  CheckCircle,
+  ChefHat,
+  BarChart3,
+  Building,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -10,7 +16,7 @@ import { Button } from "@/components/ui/button";
  * Shows aggregated DeFi exposure across different protocols
  */
 export function DeFiPositions() {
-  // Mock data for development - replace with real data fetching
+  // Mock data for development - matches image exactly
   const mockProtocols = [
     {
       name: "Trader Joe",
@@ -18,6 +24,7 @@ export function DeFiPositions() {
       totalValue: 1250.0,
       rewards: 188.75,
       icon: "🦅",
+      color: "text-destructive",
     },
     {
       name: "GMX",
@@ -25,6 +32,7 @@ export function DeFiPositions() {
       totalValue: 1600.0,
       rewards: 45.0,
       icon: "📈",
+      color: "text-primary",
     },
     {
       name: "Benqi",
@@ -32,6 +40,7 @@ export function DeFiPositions() {
       totalValue: 51.0,
       rewards: 18.75,
       icon: "🏦",
+      color: "text-muted-foreground",
     },
   ];
 
@@ -39,8 +48,7 @@ export function DeFiPositions() {
     {
       protocol: "Trader Joe",
       type: "liquidity",
-      symbol: "WAVAX-USDC",
-      balance: "1.0000",
+      symbol: "WAVAX-USDC 1.0000",
       value: 1250.0,
       health: "healthy",
       rewards: [
@@ -52,19 +60,17 @@ export function DeFiPositions() {
       protocol: "GMX",
       type: "trading",
       symbol: "WETH.e Long",
-      balance: "0.5000",
       value: 1600.0,
-      health: "warning",
+      health: "healthy",
       rewards: [{ token: "GMX", amount: "18.00", value: 45.0 }],
     },
     {
       protocol: "Benqi",
       type: "lending",
-      symbol: "WAVAX Supply",
-      balance: "2.0000",
+      symbol: "WAVAX-USDC",
       value: 51.0,
       health: "healthy",
-      rewards: [{ token: "QI", amount: "75.00", value: 18.75 }],
+      rewards: [{ token: "BENQI", amount: "75.00", value: 18.75 }],
     },
   ];
 
@@ -73,185 +79,154 @@ export function DeFiPositions() {
     0
   );
 
-  const getHealthIcon = (health: string) => {
-    switch (health) {
-      case "healthy":
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case "warning":
-        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
-      case "danger":
-        return <AlertTriangle className="h-4 w-4 text-red-500" />;
+  const getProtocolIcon = (protocolName: string) => {
+    switch (protocolName) {
+      case "Trader Joe":
+        return <ChefHat className="h-5 w-5 text-destructive" />;
+      case "GMX":
+        return <BarChart3 className="h-5 w-5 text-primary" />;
+      case "Benqi":
+        return <Building className="h-5 w-5 text-muted-foreground" />;
       default:
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-    }
-  };
-
-  const getHealthColor = (health: string) => {
-    switch (health) {
-      case "healthy":
-        return "text-green-600 bg-green-100";
-      case "warning":
-        return "text-yellow-600 bg-yellow-100";
-      case "danger":
-        return "text-red-600 bg-red-100";
-      default:
-        return "text-green-600 bg-green-100";
+        return (
+          <span className="text-2xl">
+            {mockProtocols.find((p) => p.name === protocolName)?.icon}
+          </span>
+        );
     }
   };
 
   return (
     <div className="space-y-6">
-      {/* Protocol Summary Cards */}
+      {/* Protocol Summary Cards - matches image layout */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Individual Protocol Cards */}
         {mockProtocols.map((protocol) => (
           <Card
             key={protocol.name}
-            className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 shadow-lg"
+            className="bg-card border-border hover:bg-accent/45 transition-all duration-200"
           >
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <span className="text-2xl">{protocol.icon}</span>
-                  <div>
-                    <h4 className="font-semibold text-slate-800">
-                      {protocol.name}
-                    </h4>
-                    <p className="text-sm text-slate-600">
-                      {protocol.positions} positions
-                    </p>
-                  </div>
-                </div>
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg text-card-foreground">
+                  {protocol.name}
+                </CardTitle>
+                {getProtocolIcon(protocol.name)}
               </div>
-              <div className="text-2xl font-bold text-slate-800 mb-1">
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-card-foreground mb-2">
                 {formatCurrency(protocol.totalValue)}
               </div>
-              <div className="text-sm text-green-600 font-medium">
+              <div className="text-sm text-muted-foreground mb-1">
+                {protocol.positions} position
+                {protocol.positions !== 1 ? "s" : ""}
+              </div>
+              <div className="text-sm text-primary font-medium">
                 +{formatCurrency(protocol.rewards)} rewards
               </div>
             </CardContent>
           </Card>
         ))}
 
-        {/* Total DeFi Card */}
-        <Card className="bg-linear-to-br from-blue-600 to-indigo-600 border-blue-500 shadow-lg">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold text-white">Total DeFi</h4>
-              <TrendingUp className="h-5 w-5 text-white" />
+        {/* Total DeFi Value Card - matches image exactly */}
+        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-200">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg text-card-foreground">
+                Total DeFi
+              </CardTitle>
+              <TrendingUp className="h-5 w-5 text-card-foreground" />
             </div>
-            <div className="text-2xl font-bold text-white mb-1">
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-card-foreground mb-2">
               {formatCurrency(totalDeFiValue)}
             </div>
-            <div className="text-sm text-blue-100">Across all protocols</div>
+            <div className="text-sm text-card-foreground/80">
+              Across all protocols
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Active Positions Table */}
-      <Card className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 overflow-hidden shadow-lg">
-        <CardHeader className="px-6 py-4 border-b border-slate-200">
-          <CardTitle className="text-lg text-slate-800">
-            Active Positions
-          </CardTitle>
-        </CardHeader>
+      {/* Active Positions Table - matches image exactly */}
+      <div className="space-y-4">
+        <h3 className="text-xl font-semibold text-foreground">
+          Active Positions
+        </h3>
 
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-100 bg-opacity-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Protocol
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Position
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Value
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Health
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Rewards
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {mockPositions.map((position) => (
-                  <tr
-                    key={`${position.protocol}-${position.symbol}`}
-                    className="hover:bg-slate-100 hover:bg-opacity-50 transition-colors"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-lg bg-slate-200 flex items-center justify-center mr-3">
-                          <span className="text-sm">📊</span>
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium text-slate-800">
-                            {position.protocol}
-                          </div>
-                          <div className="text-sm text-slate-600">
-                            {position.type}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-slate-800">
-                        {position.symbol}
-                      </div>
-                      <div className="text-sm text-slate-600">
-                        {position.balance}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
-                      {formatCurrency(position.value)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {getHealthIcon(position.health)}
-                        <span
-                          className={`ml-2 text-xs px-2 py-1 rounded-full ${getHealthColor(position.health)}`}
-                        >
-                          {position.health}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="space-y-1">
-                        {position.rewards.map((reward, index) => (
-                          <div key={index} className="text-sm">
-                            <span className="text-slate-800">
-                              {reward.token}
-                            </span>
-                            <span className="text-slate-600 ml-1">
-                              {formatCurrency(reward.value)}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Button
-                        size="sm"
-                        disabled={position.health === "warning"}
-                        className="px-3 py-1 h-auto"
-                      >
-                        Claim
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Table Header */}
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="grid grid-cols-6 gap-4 p-4 bg-muted/50 border-b border-border font-medium text-sm text-muted-foreground">
+            <div>PROTOCOL</div>
+            <div>POSITION</div>
+            <div>VALUE</div>
+            <div>HEALTH</div>
+            <div>REWARDS</div>
+            <div>ACTIONS</div>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Table Rows */}
+          {mockPositions.map((position, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-6 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-accent/45 transition-colors"
+            >
+              {/* Protocol Column */}
+              <div className="flex items-center space-x-3">
+                {getProtocolIcon(position.protocol)}
+                <div className="text-card-foreground font-medium">
+                  {position.protocol}
+                </div>
+              </div>
+
+              {/* Position Column */}
+              <div className="flex items-center">
+                <div className="text-card-foreground font-medium">
+                  {position.symbol}
+                </div>
+              </div>
+
+              {/* Value Column */}
+              <div className="flex items-center">
+                <div className="text-card-foreground font-medium">
+                  {formatCurrency(position.value)}
+                </div>
+              </div>
+
+              {/* Health Column */}
+              <div className="flex items-center">
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-primary bg-primary/10">
+                  <CheckCircle className="h-4 w-4 mr-1" />
+                  <span>healthy</span>
+                </div>
+              </div>
+
+              {/* Rewards Column */}
+              <div className="flex items-center">
+                <div className="text-sm text-card-foreground">
+                  {position.rewards.map((reward, rewardIndex) => (
+                    <div key={rewardIndex} className="mb-1 last:mb-0">
+                      {reward.token} {formatCurrency(reward.value)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Actions Column */}
+              <div className="flex items-center">
+                <Button
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                >
+                  Claim
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,8 +2,8 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { usePortfolioStore } from "@/store/portfolioStore";
-import { Mountain, BarChart3 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Mountain } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 /**
  * Main header component with navigation and wallet connection
@@ -13,50 +13,49 @@ export function Header() {
   const { isConnected, totalValue } = usePortfolioStore();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white bg-opacity-95 backdrop-blur-sm supports-backdrop-filter:bg-white bg-opacity-75 shadow-lg">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:shadow-lg transition-colors duration-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-linear-to-br from-red-600 to-white-600 flex items-center justify-center shadow-md">
-                <Mountain className="h-5 w-5 text-white" />
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-md">
+                <Mountain className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold text-slate-800">
+              <span className="text-xl font-bold text-foreground transition-colors duration-200">
                 JarryBank
               </span>
             </div>
 
-            {/* Navigation Links */}
+            {/* Navigation Links - matches image */}
             <nav className="hidden md:flex items-center space-x-6 ml-8">
               <a
-                href="#portfolio"
-                className="text-slate-600 hover:text-blue-600 transition-colors font-medium"
+                href="/"
+                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Portfolio
               </a>
               <a
                 href="#defi"
-                className="text-slate-600 hover:text-blue-600 transition-colors font-medium"
+                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 DeFi Positions
               </a>
               <a
-                href="#transactions"
-                className="text-slate-600 hover:text-blue-600 transition-colors font-medium"
+                href="/brand-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
-                Transactions
+                Brand Colors
               </a>
             </nav>
           </div>
 
           {/* Right side - Portfolio Value and Wallet */}
           <div className="flex items-center space-x-4">
-            {/* Portfolio Value Display */}
+            {/* Portfolio Value Display - matches image */}
             {isConnected && (
-              <div className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg bg-slate-100 border border-slate-200">
-                <BarChart3 className="h-4 w-4 text-blue-600" />
-                <span className="text-sm font-medium text-slate-700">
+              <div className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg bg-muted border border-border transition-colors duration-200">
+                <span className="text-sm font-medium text-muted-foreground">
                   {totalValue > 0
                     ? `$${totalValue.toLocaleString()}`
                     : "Loading..."}
@@ -64,7 +63,7 @@ export function Header() {
               </div>
             )}
 
-            {/* Wallet Connection */}
+            {/* Wallet Connection - matches image */}
             <ConnectButton.Custom>
               {({
                 account,
@@ -82,52 +81,48 @@ export function Header() {
                     {(() => {
                       if (!ready) {
                         return (
-                          <div className="h-9 w-20 rounded-lg bg-slate-200 animate-pulse" />
+                          <div className="h-9 w-20 rounded-lg bg-muted border border-border animate-pulse" />
                         );
                       }
 
                       if (!connected) {
                         return (
-                          <Button
+                          <button
                             onClick={openConnectModal}
-                            className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 shadow-md"
+                            className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-all duration-200 shadow-md"
                           >
                             <span>Connect</span>
-                          </Button>
+                          </button>
                         );
                       }
 
                       if (chain.unsupported) {
                         return (
-                          <Button
+                          <button
                             onClick={openChainModal}
-                            variant="destructive"
+                            className="px-6 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground font-medium rounded-lg transition-all duration-200"
                           >
                             <span>Wrong network</span>
-                          </Button>
+                          </button>
                         );
                       }
 
                       return (
                         <div className="flex items-center space-x-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
+                          <button
                             onClick={openChainModal}
-                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-800 border-slate-200"
+                            className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border transition-all duration-200"
                           >
-                            <div className="h-4 w-4 rounded-full bg-green-500 mr-2" />
+                            <div className="h-3 w-3 rounded-full bg-primary mr-2 inline-block" />
                             <span>{chain.name}</span>
-                          </Button>
+                          </button>
 
-                          <Button
-                            variant="outline"
-                            size="sm"
+                          <button
                             onClick={openAccountModal}
-                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-800 border-slate-200"
+                            className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border transition-all duration-200"
                           >
                             <span>{account.displayName}</span>
-                          </Button>
+                          </button>
                         </div>
                       );
                     })()}
@@ -135,6 +130,9 @@ export function Header() {
                 );
               }}
             </ConnectButton.Custom>
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
           </div>
         </div>
       </div>

@@ -1,3 +1,30 @@
+# JarryBank - Portfolio Tracker
+
+A modern DeFi portfolio tracker built with Next.js, featuring a comprehensive gradient background system and theme switching capabilities.
+
+## ✨ Features
+
+- 🌈 **Unique Gradient Backgrounds** - Automatically adapt to light/dark themes
+- 🎨 **Brand Color System** - Easy global color customization
+- 🌓 **Theme Switching** - Seamless light/dark mode with system preference detection
+- 📱 **Responsive Design** - Built with Tailwind CSS for all devices
+- 🔗 **Web3 Integration** - Wallet connection and portfolio tracking
+- 🚀 **Performance Optimized** - Fast, modern web application
+
+## 🎨 Gradient System
+
+This app includes a comprehensive gradient background system that:
+
+- Automatically adapts to light/dark themes
+- Integrates seamlessly with your brand colors
+- Provides 11 different gradient types (linear, diagonal, radial, multi-color)
+- Includes gradient text and border utilities
+- Easy to customize by updating CSS variables
+
+Visit `/brand-colors` to see all gradients in action!
+
+## 🚀 Getting Started
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

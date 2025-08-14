@@ -9,14 +9,14 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
+  ExternalLink,
 } from "lucide-react";
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 /**
  * Transaction history component displaying recent DeFi transactions
- * Shows transaction status, amounts, and protocol information
+ * Shows transaction status, amounts, and protocol information in a modern table format
  */
 export function TransactionHistory() {
   const [filter, setFilter] = useState<
@@ -71,73 +71,56 @@ export function TransactionHistory() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4 text-primary" />;
       case "pending":
-        return <Clock className="h-4 w-4 text-yellow-500" />;
+        return <Clock className="h-4 w-4 text-accent-foreground" />;
       case "failed":
-        return <XCircle className="h-4 w-4 text-red-500" />;
+        return <XCircle className="h-4 w-4 text-destructive" />;
       default:
-        return <AlertCircle className="h-4 w-4 text-slate-500" />;
+        return <AlertCircle className="h-4 w-4 text-secondary-foreground" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "text-green-600 bg-green-100";
+        return "text-primary bg-primary/10";
       case "pending":
-        return "text-yellow-600 bg-yellow-100";
+        return "text-accent-foreground bg-accent/10";
       case "failed":
-        return "text-red-600 bg-red-100";
+        return "text-destructive bg-destructive/10";
       default:
-        return "text-slate-600 bg-slate-100";
+        return "text-secondary-foreground bg-secondary/10";
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
       case "swap":
-        return <ArrowUpRight className="h-4 w-4 text-blue-500" />;
+        return <ArrowUpRight className="h-4 w-4 text-primary" />;
       case "deposit":
-        return <ArrowDownLeft className="h-4 w-4 text-green-500" />;
+        return <ArrowDownLeft className="h-4 w-4 text-primary" />;
       case "withdraw":
-        return <ArrowUpRight className="h-4 w-4 text-red-500" />;
+        return <ArrowUpRight className="h-4 w-4 text-destructive" />;
       case "claim":
-        return <ArrowUpRight className="h-4 w-4 text-purple-500" />;
+        return <CheckCircle className="h-4 w-4 text-accent-foreground" />;
       default:
-        return <ArrowUpRight className="h-4 w-4 text-slate-500" />;
+        return <AlertCircle className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
-  const filteredTransactions = mockTransactions.filter((tx) => {
-    if (filter === "all") return true;
-    return tx.status === filter;
-  });
-
-  const handleRefresh = () => {
-    // TODO: Implement real data refresh
-    console.log("Refreshing transaction data...");
-  };
+  const filteredTransactions = mockTransactions.filter(
+    (tx) => filter === "all" || tx.status === filter
+  );
 
   return (
     <div className="space-y-6">
-      {/* Header and Filters */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex items-center gap-3">
-          <h3 className="text-lg font-semibold text-slate-800">
-            Recent Transactions
-          </h3>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleRefresh}
-            className="p-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100"
-          >
-            <RefreshCw className="h-4 w-4" />
-          </Button>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
+      {/* Filter Controls */}
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-semibold text-foreground">
+          Recent Transactions
+        </h3>
+        <div className="flex space-x-2">
           {(["all", "pending", "completed", "failed"] as const).map(
             (status) => (
               <Button
@@ -145,115 +128,110 @@ export function TransactionHistory() {
                 variant={filter === status ? "default" : "outline"}
                 size="sm"
                 onClick={() => setFilter(status)}
-                className="capitalize"
+                className={
+                  filter === status
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary hover:bg-secondary/80 text-secondary-foreground border-border"
+                }
               >
-                {status}
+                {status.charAt(0).toUpperCase() + status.slice(1)}
               </Button>
             )
           )}
         </div>
       </div>
 
-      {/* Transactions Table */}
-      <Card className="bg-white bg-opacity-80 backdrop-blur-sm border-slate-200 overflow-hidden shadow-lg">
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-100 bg-opacity-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Amount
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Protocol
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Time
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {filteredTransactions.map((tx) => (
-                  <tr
-                    key={tx.hash}
-                    className="hover:bg-slate-100 hover:bg-opacity-50 transition-colors"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-lg bg-slate-200 flex items-center justify-center mr-3">
-                          {getTypeIcon(tx.type)}
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium text-slate-800 capitalize">
-                            {tx.type}
-                          </div>
-                          <div className="text-xs text-slate-500">
-                            {truncateAddress(tx.hash)}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-slate-800">{tx.amount}</div>
-                      <div className="text-sm text-slate-600">
-                        {formatCurrency(tx.value)}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {getStatusIcon(tx.status)}
-                        <span
-                          className={`ml-2 text-xs px-2 py-1 rounded-full ${getStatusColor(tx.status)} capitalize`}
-                        >
-                          {tx.status}
-                        </span>
-                      </div>
-                      {tx.error && (
-                        <div className="text-xs text-red-600 mt-1">
-                          {tx.error}
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
-                      {tx.protocol}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {tx.time}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                        className="inline-flex items-center text-blue-600 hover:text-blue-700 p-0 h-auto"
-                      >
-                        <a
-                          href={tx.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-medium"
-                        >
-                          View
-                          <ArrowUpRight className="h-3 w-3 ml-1" />
-                        </a>
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Transactions Table - Modern table design */}
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        {/* Table Header */}
+        <div className="grid grid-cols-7 gap-4 p-4 bg-muted/50 border-b border-border font-medium text-sm text-muted-foreground">
+          <div>TYPE</div>
+          <div>PROTOCOL</div>
+          <div>AMOUNT</div>
+          <div>VALUE</div>
+          <div>STATUS</div>
+          <div>TIME</div>
+          <div>ACTIONS</div>
+        </div>
+
+        {/* Table Rows */}
+        {filteredTransactions.map((transaction) => (
+          <div
+            key={transaction.hash}
+            className="grid grid-cols-7 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-accent/45 transition-colors"
+          >
+            {/* Type Column */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-full bg-muted/50 border border-border flex items-center justify-center">
+                {getTypeIcon(transaction.type)}
+              </div>
+              <div className="text-card-foreground font-medium capitalize">
+                {transaction.type}
+              </div>
+            </div>
+
+            {/* Protocol Column */}
+            <div className="flex items-center">
+              <div className="text-card-foreground font-medium">
+                {transaction.protocol}
+              </div>
+            </div>
+
+            {/* Amount Column */}
+            <div className="flex items-center">
+              <div className="text-card-foreground font-medium">
+                {transaction.amount}
+              </div>
+            </div>
+
+            {/* Value Column */}
+            <div className="flex items-center">
+              <div className="text-card-foreground font-medium">
+                {formatCurrency(transaction.value)}
+              </div>
+            </div>
+
+            {/* Status Column */}
+            <div className="flex items-center">
+              <div
+                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.status)}`}
+              >
+                {getStatusIcon(transaction.status)}
+                <span className="ml-1 capitalize">{transaction.status}</span>
+              </div>
+            </div>
+
+            {/* Time Column */}
+            <div className="flex items-center">
+              <div className="text-sm text-muted-foreground">
+                {transaction.time}
+              </div>
+            </div>
+
+            {/* Actions Column */}
+            <div className="flex items-center space-x-2">
+              <Button
+                size="sm"
+                variant="outline"
+                className="bg-secondary hover:bg-secondary/80 text-secondary-foreground border-border"
+                onClick={() => window.open(transaction.url, "_blank")}
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                View
+              </Button>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        ))}
+      </div>
+
+      {/* Empty State */}
+      {filteredTransactions.length === 0 && (
+        <div className="bg-card border border-border rounded-xl p-8 text-center">
+          <div className="text-muted-foreground">
+            No {filter !== "all" ? filter : ""} transactions found
+          </div>
+        </div>
+      )}
     </div>
   );
 }
