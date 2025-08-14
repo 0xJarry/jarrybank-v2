@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Web3Provider } from "@/components/providers/Web3Provider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ThemeInitializer } from "@/components/providers/ThemeInitializer";
 import { Header } from "@/components/layout/Header";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,7 +25,31 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Initialize theme immediately when HTML loads
+              (function() {
+                try {
+                  const stored = localStorage.getItem('jarrybank-theme-store');
+                  if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed.state && parsed.state.currentThemeId) {
+                      // Store the theme ID to be applied when React loads
+                      window.__INITIAL_THEME__ = parsed.state.currentThemeId;
+                    }
+                  }
+                } catch (e) {
+                  console.warn('Failed to read stored theme');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className}>
+        <ThemeInitializer />
         <ThemeProvider>
           <Web3Provider>
             <div className="min-h-screen bg-background">

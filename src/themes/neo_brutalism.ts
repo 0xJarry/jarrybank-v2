@@ -1,3 +1,7 @@
+export const neoBrutalismTheme = {
+  name: "Neo Brutalism",
+  id: "neo-brutalism",
+  cssContent: `
 @import "tailwindcss";
 
 :root {
@@ -181,3 +185,5 @@ body {
 .theme-switcher .absolute {
   transition: all 0.2s ease;
 }
+  `,
+};

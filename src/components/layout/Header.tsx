@@ -1,13 +1,12 @@
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { usePortfolioStore } from "@/store/portfolioStore";
 import { Mountain } from "lucide-react";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ThemeToggle, ThemeSwitcher, WalletConnect } from "@/components/ui";
 
 /**
  * Main header component with navigation and wallet connection
- * Features wallet connect button and portfolio overview
+ * Features wallet connect button, portfolio overview, and theme switcher
  */
 export function Header() {
   const { isConnected, totalValue } = usePortfolioStore();
@@ -50,88 +49,15 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Right side - Portfolio Value and Wallet */}
+          {/* Right side - Theme Switcher, and Wallet */}
           <div className="flex items-center space-x-4">
-            {/* Portfolio Value Display - matches image */}
-            {isConnected && (
-              <div className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg bg-muted border border-border transition-colors duration-200">
-                <span className="text-sm font-medium text-muted-foreground">
-                  {totalValue > 0
-                    ? `$${totalValue.toLocaleString()}`
-                    : "Loading..."}
-                </span>
-              </div>
-            )}
+            {/* Theme Switcher - replaces the Loading placeholder */}
+            <ThemeSwitcher />
 
             {/* Wallet Connection - matches image */}
-            <ConnectButton.Custom>
-              {({
-                account,
-                chain,
-                openAccountModal,
-                openChainModal,
-                openConnectModal,
-                mounted,
-              }) => {
-                const ready = mounted;
-                const connected = ready && account && chain;
+            <WalletConnect />
 
-                return (
-                  <div className="flex items-center space-x-2">
-                    {(() => {
-                      if (!ready) {
-                        return (
-                          <div className="h-9 w-20 rounded-lg bg-muted border border-border animate-pulse" />
-                        );
-                      }
-
-                      if (!connected) {
-                        return (
-                          <button
-                            onClick={openConnectModal}
-                            className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-all duration-200 shadow-md"
-                          >
-                            <span>Connect</span>
-                          </button>
-                        );
-                      }
-
-                      if (chain.unsupported) {
-                        return (
-                          <button
-                            onClick={openChainModal}
-                            className="px-6 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground font-medium rounded-lg transition-all duration-200"
-                          >
-                            <span>Wrong network</span>
-                          </button>
-                        );
-                      }
-
-                      return (
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={openChainModal}
-                            className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border transition-all duration-200"
-                          >
-                            <div className="h-3 w-3 rounded-full bg-primary mr-2 inline-block" />
-                            <span>{chain.name}</span>
-                          </button>
-
-                          <button
-                            onClick={openAccountModal}
-                            className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border transition-all duration-200"
-                          >
-                            <span>{account.displayName}</span>
-                          </button>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                );
-              }}
-            </ConnectButton.Custom>
-
-            {/* Theme Toggle */}
+            {/* Theme Toggle - Light/Dark mode */}
             <ThemeToggle />
           </div>
         </div>

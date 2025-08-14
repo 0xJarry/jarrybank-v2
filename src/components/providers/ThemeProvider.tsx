@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
+import { initializeTheme, useThemeStore } from "@/store/themeStore";
 
 interface ThemeProviderProps {
   /** Child components that will have access to theme context */
@@ -12,11 +13,36 @@ interface ThemeProviderProps {
   enableSystemTheme?: boolean;
 }
 
+/**
+ * Inner component that listens for theme changes
+ */
+function ThemeSync() {
+  const { theme: nextTheme } = useTheme();
+  const { refreshTheme } = useThemeStore();
+
+  // Listen for light/dark mode changes and refresh custom theme
+  React.useEffect(() => {
+    if (nextTheme) {
+      // Small delay to ensure DOM has updated with the new class
+      const timer = setTimeout(() => {
+        refreshTheme();
+      }, 50);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [nextTheme, refreshTheme]);
+
+  return null;
+}
+
 export function ThemeProvider({
   children,
   initialTheme,
   enableSystemTheme = true,
 }: ThemeProviderProps) {
+  // Theme initialization is now handled by ThemeInitializer in layout.tsx
+  // This prevents the flash of default theme on page refresh
+
   return (
     <NextThemesProvider
       attribute="class"
@@ -25,6 +51,7 @@ export function ThemeProvider({
       disableTransitionOnChange
       storageKey="jarrybank-theme"
     >
+      <ThemeSync />
       {children}
     </NextThemesProvider>
   );

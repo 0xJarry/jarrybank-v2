@@ -104,7 +104,7 @@ export function DeFiPositions() {
         {mockProtocols.map((protocol) => (
           <Card
             key={protocol.name}
-            className="bg-card border-border hover:bg-accent/45 transition-all duration-200"
+            className="bg-card border-border hover:bg-muted transition-all duration-200"
           >
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
@@ -130,7 +130,7 @@ export function DeFiPositions() {
         ))}
 
         {/* Total DeFi Value Card - matches image exactly */}
-        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-200">
+        <Card className="bg-card border-border hover:bg-muted transition-all duration-200">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-card-foreground">
@@ -171,7 +171,7 @@ export function DeFiPositions() {
           {mockPositions.map((position, index) => (
             <div
               key={index}
-              className="grid grid-cols-6 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-accent/45 transition-colors"
+              className="grid grid-cols-6 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted transition-colors"
             >
               {/* Protocol Column */}
               <div className="flex items-center space-x-3">
@@ -218,7 +218,7 @@ export function DeFiPositions() {
               <div className="flex items-center">
                 <Button
                   size="sm"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="bg-primary hover:bg-primary/70 text-primary-foreground"
                 >
                   Claim
                 </Button>

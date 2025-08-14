@@ -86,9 +86,9 @@ export function TransactionHistory() {
       case "completed":
         return "text-primary bg-primary/10";
       case "pending":
-        return "text-accent-foreground bg-accent/10";
+        return "text-accent-foreground bg-accent/50";
       case "failed":
-        return "text-destructive bg-destructive/10";
+        return "text-destructive bg-destructive/25";
       default:
         return "text-secondary-foreground bg-secondary/10";
     }
@@ -158,7 +158,7 @@ export function TransactionHistory() {
         {filteredTransactions.map((transaction) => (
           <div
             key={transaction.hash}
-            className="grid grid-cols-7 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-accent/45 transition-colors"
+            className="grid grid-cols-7 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted transition-colors"
           >
             {/* Type Column */}
             <div className="flex items-center space-x-3">

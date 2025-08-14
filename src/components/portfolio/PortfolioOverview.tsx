@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { PortfolioPerformanceChart } from "./PortfolioPerformanceChart";
 
 /**
  * Portfolio overview component displaying token balances and total value
@@ -74,7 +75,7 @@ export function PortfolioOverview() {
       {/* Portfolio Summary Cards - matches image layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Total Portfolio Value */}
-        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-300 shadow-sm hover:shadow-md">
+        <Card className="bg-card border-border hover:bg-muted transition-all duration-300 shadow-sm hover:shadow-md">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-card-foreground font-semibold">
@@ -95,7 +96,7 @@ export function PortfolioOverview() {
         </Card>
 
         {/* Token Count */}
-        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-300 shadow-sm hover:shadow-md">
+        <Card className="bg-card border-border hover:bg-muted transition-all duration-300 shadow-sm hover:shadow-md">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-card-foreground font-semibold">
@@ -114,7 +115,7 @@ export function PortfolioOverview() {
         </Card>
 
         {/* Last Updated */}
-        <Card className="bg-card border-border hover:bg-accent/45 transition-all duration-300 shadow-sm hover:shadow-md">
+        <Card className="bg-card border-border hover:bg-muted transition-all duration-300 shadow-sm hover:shadow-md">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-card-foreground font-semibold">
@@ -133,6 +134,9 @@ export function PortfolioOverview() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Portfolio Performance Chart */}
+      <PortfolioPerformanceChart />
 
       {/* Token Balances Table - matches image exactly */}
       <div className="space-y-4">
@@ -154,7 +158,7 @@ export function PortfolioOverview() {
           {mockTokens.map((token) => (
             <div
               key={token.address}
-              className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-accent/45 transition-colors"
+              className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted transition-colors"
             >
               {/* Token Column */}
               <div className="flex items-center space-x-3">
