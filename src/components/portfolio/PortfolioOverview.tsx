@@ -2,19 +2,18 @@
 
 import { usePortfolioStore } from "@/store/portfolioStore";
 import { formatCurrency, formatNumber } from "@/lib/utils";
-import { RefreshCw, TrendingUp, DollarSign, TrendingDown } from "lucide-react";
+import { RefreshCw, TrendingUp, DollarSign } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { PortfolioPerformanceChart } from "./PortfolioPerformanceChart";
+import { formatUnits } from "viem";
 
 /**
  * Portfolio overview component displaying token balances and total value
  * Shows aggregated portfolio information with refresh functionality
  */
 export function PortfolioOverview() {
-  const { totalValue, lastUpdated } = usePortfolioStore();
+  const { totalValue, lastUpdated, tokens, isLoading, isConnected } = usePortfolioStore();
   const [timeAgo, setTimeAgo] = useState<string>("");
 
   // Update time ago display
@@ -37,8 +36,8 @@ export function PortfolioOverview() {
     }
   }, [lastUpdated]);
 
-  // Mock data for development - matches image exactly
-  const mockTokens = [
+  // Use real tokens if connected, otherwise show mock data for demo
+  const displayTokens = isConnected && tokens.length > 0 ? tokens : [
     {
       address: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
       symbol: "WAVAX",
@@ -47,8 +46,7 @@ export function PortfolioOverview() {
       balance: "1000000000000000000",
       price: 25.5,
       value: 25.5,
-      change: 1.2,
-      logoURI: "/tokens/avalanche-avax-logo.png",
+      logoURI: "/api/placeholder/32/32",
       chainId: 43114,
     },
     {
@@ -59,16 +57,11 @@ export function PortfolioOverview() {
       balance: "500000000000000000",
       price: 3200.0,
       value: 1600.0,
-      change: -0.8,
-      logoURI: "/tokens/ethereum-eth-logo.png",
+      logoURI: "/api/placeholder/32/32",
       chainId: 43114,
     },
   ];
 
-  const handleRefresh = () => {
-    // TODO: Implement real data refresh
-    console.log("Refreshing portfolio data...");
-  };
 
   return (
     <div className="space-y-6">
@@ -106,10 +99,10 @@ export function PortfolioOverview() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-card-foreground mb-2">
-              {mockTokens.length}
+              {displayTokens.length}
             </div>
             <div className="text-sm text-muted-foreground">
-              Across {mockTokens.length} different assets
+              Across {displayTokens.length} different assets
             </div>
           </CardContent>
         </Card>
@@ -155,21 +148,26 @@ export function PortfolioOverview() {
           </div>
 
           {/* Table Rows */}
-          {mockTokens.map((token) => (
+          {isLoading ? (
+            <div className="p-8 text-center text-muted-foreground">
+              Loading token balances...
+            </div>
+          ) : displayTokens.length === 0 ? (
+            <div className="p-8 text-center text-muted-foreground">
+              No tokens found. Connect your wallet to see your balances.
+            </div>
+          ) : (
+            displayTokens.map((token) => (
             <div
               key={token.address}
               className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted transition-colors"
             >
               {/* Token Column */}
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-full bg-muted/50 border border-border flex items-center justify-center">
-                  <Image
-                    src={token.logoURI}
-                    alt={token.symbol}
-                    width={24}
-                    height={24}
-                    className="rounded-full"
-                  />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-border flex items-center justify-center">
+                  <span className="text-xs font-bold text-primary">
+                    {token.symbol.slice(0, 2)}
+                  </span>
                 </div>
                 <div>
                   <div className="font-semibold text-card-foreground">
@@ -185,7 +183,7 @@ export function PortfolioOverview() {
               <div className="flex items-center">
                 <div className="text-card-foreground font-medium">
                   {formatNumber(
-                    parseFloat(token.balance) / Math.pow(10, token.decimals),
+                    parseFloat(formatUnits(BigInt(token.balance), token.decimals)),
                     4
                   )}
                 </div>
@@ -207,24 +205,14 @@ export function PortfolioOverview() {
 
               {/* Change Column */}
               <div className="flex items-center">
-                <div
-                  className={`flex items-center text-sm font-medium ${
-                    token.change >= 0 ? "text-primary" : "text-destructive"
-                  }`}
-                >
-                  {token.change >= 0 ? (
-                    <TrendingUp className="h-4 w-4 mr-1" />
-                  ) : (
-                    <TrendingDown className="h-4 w-4 mr-1" />
-                  )}
-                  <span>
-                    {token.change >= 0 ? "+" : ""}
-                    {token.change}%
-                  </span>
+                <div className="text-sm text-muted-foreground">
+                  {/* Price changes not yet implemented */}
+                  --
                 </div>
               </div>
             </div>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </div>

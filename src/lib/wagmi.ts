@@ -2,8 +2,31 @@ import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { mainnet, avalanche } from "wagmi/chains";
 
 /**
+ * Get RPC URLs with fallback support
+ * Priority: Custom URL -> Public RPC
+ */
+const getRpcUrls = () => {
+  const urls = [];
+  
+  // Add custom RPC if provided
+  if (process.env.NEXT_PUBLIC_AVALANCHE_RPC_URL) {
+    urls.push(process.env.NEXT_PUBLIC_AVALANCHE_RPC_URL);
+  }
+  
+  // Add fallback RPC if provided
+  if (process.env.NEXT_PUBLIC_AVALANCHE_RPC_FALLBACK) {
+    urls.push(process.env.NEXT_PUBLIC_AVALANCHE_RPC_FALLBACK);
+  }
+  
+  // Always include public RPC as final fallback
+  urls.push("https://api.avax.network/ext/bc/C/rpc");
+  
+  return urls;
+};
+
+/**
  * Wagmi configuration for Web3 integration
- * Supports Avalanche C-Chain as primary network with Ethereum mainnet as fallback
+ * Supports Avalanche C-Chain with automatic RPC fallback
  */
 export const config = getDefaultConfig({
   appName: "JarryBank",
@@ -15,16 +38,10 @@ export const config = getDefaultConfig({
       name: "Avalanche C-Chain",
       rpcUrls: {
         default: {
-          http: [
-            process.env.NEXT_PUBLIC_AVALANCHE_RPC_URL ||
-              "https://api.avax.network/ext/bc/C/rpc",
-          ],
+          http: getRpcUrls(),
         },
         public: {
-          http: [
-            process.env.NEXT_PUBLIC_AVALANCHE_RPC_URL ||
-              "https://api.avax.network/ext/bc/C/rpc",
-          ],
+          http: ["https://api.avax.network/ext/bc/C/rpc"],
         },
       },
     },

@@ -121,7 +121,7 @@ export function AllBrandColors() {
           💡 <strong>{displayVariables.length}</strong> CSS variables
           automatically displayed. Add or remove variables in your{" "}
           <code className="bg-background px-1 rounded">globals.css</code> and
-          they'll appear here!
+          they&apos;ll appear here!
         </p>
       </div>
     </div>

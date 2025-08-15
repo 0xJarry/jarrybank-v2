@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
-import { initializeTheme, useThemeStore } from "@/store/themeStore";
+import { useThemeStore } from "@/store/themeStore";
 
 interface ThemeProviderProps {
   /** Child components that will have access to theme context */

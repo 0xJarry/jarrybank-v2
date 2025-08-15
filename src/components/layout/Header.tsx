@@ -1,15 +1,14 @@
 "use client";
 
-import { usePortfolioStore } from "@/store/portfolioStore";
 import { Mountain } from "lucide-react";
 import { ThemeToggle, ThemeSwitcher, WalletConnect } from "@/components/ui";
+import Link from "next/link";
 
 /**
  * Main header component with navigation and wallet connection
  * Features wallet connect button, portfolio overview, and theme switcher
  */
 export function Header() {
-  const { isConnected, totalValue } = usePortfolioStore();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:shadow-lg transition-colors duration-200">
@@ -28,24 +27,24 @@ export function Header() {
 
             {/* Navigation Links - matches image */}
             <nav className="hidden md:flex items-center space-x-6 ml-8">
-              <a
+              <Link
                 href="/"
                 className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Portfolio
-              </a>
+              </Link>
               <a
                 href="#defi"
                 className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 DeFi Positions
               </a>
-              <a
+              <Link
                 href="/brand-colors"
                 className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Brand Colors
-              </a>
+              </Link>
             </nav>
           </div>
 

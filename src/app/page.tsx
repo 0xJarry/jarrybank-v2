@@ -6,6 +6,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { usePortfolioStore } from "@/store/portfolioStore";
 import { TransactionHistory } from "@/components/portfolio/TransactionHistory";
+import { useWalletSync } from "@/hooks/useWalletSync";
 
 /**
  * Main page component for JarryBank portfolio tracker
@@ -16,6 +17,9 @@ export default function HomePage() {
   const { address, chainId } = useAccount();
   const { setConnection, isConnected } = usePortfolioStore();
   const [isDemoMode, setIsDemoMode] = useState(false);
+  
+  // Sync wallet data with portfolio store
+  useWalletSync();
 
   // Sync wallet connection state with portfolio store
   useEffect(() => {

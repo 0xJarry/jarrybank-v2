@@ -133,7 +133,7 @@ export function initializeTheme(): void {
   if (typeof window === "undefined") return;
 
   // Check if we have a pre-loaded theme ID from the script tag
-  let themeId = (window as any).__INITIAL_THEME__;
+  let themeId = (window as { __INITIAL_THEME__?: string }).__INITIAL_THEME__;
 
   if (!themeId) {
     // Fallback to localStorage
@@ -144,7 +144,7 @@ export function initializeTheme(): void {
         if (parsed.state && parsed.state.currentThemeId) {
           themeId = parsed.state.currentThemeId;
         }
-      } catch (error) {
+      } catch {
         console.warn("Failed to parse stored theme, using default");
       }
     }
@@ -170,7 +170,7 @@ export function initializeTheme(): void {
     });
 
     // Clean up the global variable
-    delete (window as any).__INITIAL_THEME__;
+    delete (window as { __INITIAL_THEME__?: string }).__INITIAL_THEME__;
   }
 }
 

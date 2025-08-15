@@ -1,8 +1,7 @@
 "use client";
 
-import { formatCurrency, truncateAddress } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import {
-  RefreshCw,
   ArrowUpRight,
   ArrowDownLeft,
   Clock,
