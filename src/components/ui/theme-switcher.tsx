@@ -54,7 +54,7 @@ export function ThemeSwitcher() {
         variant="outline"
         size="sm"
         onClick={toggleThemeSwitcher}
-        className="h-9 px-3 gap-2 bg-background border-border hover:bg-muted transition-colors"
+        className="h-9 px-3 gap-2 bg-background border-border hover:bg-accent transition-colors"
       >
         <Palette className="h-4 w-4" />
         <span className="hidden sm:inline text-sm font-medium">

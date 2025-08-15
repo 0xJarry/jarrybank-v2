@@ -11,6 +11,7 @@ import { sunsetTheme } from "./sunset";
 import { twitterTheme } from "./twitter";
 import { claudeTheme } from "./claude";
 import { midnightBloomTheme } from "./midnight-bloom";
+import { bubblegumTheme } from "./bubblegum";
 
 // Export all themes
 export { neoBrutalismTheme } from "./neo_brutalism";
@@ -19,6 +20,7 @@ export { sunsetTheme } from "./sunset";
 export { twitterTheme } from "./twitter";
 export { claudeTheme } from "./claude";
 export { midnightBloomTheme } from "./midnight-bloom";
+export { bubblegumTheme } from "./bubblegum";
 
 // Theme type definition - matches the new cssContent format
 export interface Theme {
@@ -35,6 +37,7 @@ export const allThemes: Theme[] = [
   twitterTheme,
   claudeTheme,
   midnightBloomTheme,
+  bubblegumTheme,
   // Add new themes here - they will automatically appear in the switcher
 ];
 
