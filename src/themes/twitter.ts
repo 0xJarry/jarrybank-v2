@@ -1,6 +1,6 @@
 export const twitterTheme = {
-  name: "Twitter",
-  id: "twitter",
+  name: 'Twitter',
+  id: 'twitter',
   cssContent: `
   @import "tailwindcss";
   
@@ -178,4 +178,4 @@ export const twitterTheme = {
     transition: all 0.2s ease;
   }
     `,
-};
+}

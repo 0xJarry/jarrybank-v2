@@ -1,6 +1,6 @@
 export const bubblegumTheme = {
-  name: "Bubblegum",
-  id: "bubblegum",
+  name: 'Bubblegum',
+  id: 'bubblegum',
   cssContent: `
   @import "tailwindcss";
   
@@ -178,4 +178,4 @@ export const bubblegumTheme = {
     transition: all 0.2s ease;
   }
     `,
-};
+}

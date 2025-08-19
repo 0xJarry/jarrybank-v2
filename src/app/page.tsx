@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import { PortfolioOverview } from "@/components/portfolio/PortfolioOverview";
-import { DeFiPositions } from "@/components/portfolio/DeFiPositions";
-import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
-import { usePortfolioStore } from "@/store/portfolioStore";
-import { TransactionHistory } from "@/components/portfolio/TransactionHistory";
-import { useWalletSync } from "@/hooks/useWalletSync";
+import { PortfolioOverview } from '@/components/portfolio/PortfolioOverview'
+import { DeFiPositions } from '@/components/portfolio/DeFiPositions'
+import { useAccount } from 'wagmi'
+import { useEffect, useState } from 'react'
+import { usePortfolioStore } from '@/store/portfolioStore'
+import { TransactionHistory } from '@/components/portfolio/TransactionHistory'
+import { useWalletSync } from '@/hooks/useWalletSync'
 
 /**
  * Main page component for JarryBank portfolio tracker
@@ -14,57 +14,57 @@ import { useWalletSync } from "@/hooks/useWalletSync";
  * Includes demo mode for testing without wallet connection
  */
 export default function HomePage() {
-  const { address, chainId } = useAccount();
-  const { setConnection, isConnected } = usePortfolioStore();
-  const [isDemoMode, setIsDemoMode] = useState(false);
-  
+  const { address, chainId } = useAccount()
+  const { setConnection, isConnected } = usePortfolioStore()
+  const [isDemoMode, setIsDemoMode] = useState(false)
+
   // Sync wallet data with portfolio store
-  useWalletSync();
+  useWalletSync()
 
   // Sync wallet connection state with portfolio store
   useEffect(() => {
     if (address && chainId) {
-      setConnection(address, chainId);
+      setConnection(address, chainId)
     } else if (!isDemoMode) {
-      setConnection(null, null);
+      setConnection(null, null)
     }
-  }, [address, chainId, setConnection, isDemoMode]);
+  }, [address, chainId, setConnection, isDemoMode])
 
   // Handle demo mode activation
   const handleDemoMode = () => {
-    setIsDemoMode(true);
+    setIsDemoMode(true)
     // Simulate a demo wallet connection
-    setConnection("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 43114); // Avalanche C-Chain
-  };
+    setConnection('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', 43114) // Avalanche C-Chain
+  }
 
   // Check if we should show the portfolio (either real connection or demo mode)
-  const shouldShowPortfolio = isConnected || isDemoMode;
+  const shouldShowPortfolio = isConnected || isDemoMode
 
   return (
-    <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
       {/* Welcome Section */}
       {!shouldShowPortfolio ? (
-        <div className="text-center py-20">
-          <div className="max-w-3xl mx-auto">
+        <div className="py-20 text-center">
+          <div className="mx-auto max-w-3xl">
             <div className="mb-12">
               {/* Main heading - using standard Tailwind colors */}
-              <h1 className="text-6xl font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent mb-6">
+              <h1 className="from-primary to-primary mb-6 bg-gradient-to-r bg-clip-text text-6xl font-bold text-transparent">
                 Welcome to JarryBank
               </h1>
               {/* Subtitle - using muted foreground for secondary text */}
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Track your DeFi portfolio, manage positions, and claim rewards
-                across Avalanche protocols
+              <p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-xl">
+                Track your DeFi portfolio, manage positions, and claim rewards across Avalanche
+                protocols
               </p>
             </div>
 
             {/* Main card - using standard card classes */}
-            <div className="bg-card hover:bg-accent/20 transition-all duration-200 rounded-2xl shadow-lg p-10 max-w-lg mx-auto border border-border">
+            <div className="bg-card hover:bg-accent/20 border-border mx-auto max-w-lg rounded-2xl border p-10 shadow-lg transition-all duration-200">
               <div className="mb-8">
                 {/* Icon container - using primary colors */}
-                <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <div className="from-primary to-primary/80 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br shadow-lg">
                   <svg
-                    className="w-10 h-10 text-primary-foreground"
+                    className="text-primary-foreground h-10 w-10"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -78,20 +78,18 @@ export default function HomePage() {
                   </svg>
                 </div>
                 {/* Description text - using foreground color */}
-                <p className="text-foreground font-semibold text-lg">
+                <p className="text-foreground text-lg font-semibold">
                   Connect your wallet to get started
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
                 {/* Divider text - using muted foreground */}
-                <div className="text-muted-foreground text-sm font-medium">
-                  or
-                </div>
+                <div className="text-muted-foreground text-sm font-medium">or</div>
                 {/* Demo button - using primary colors */}
                 <button
                   onClick={handleDemoMode}
-                  className="px-10 py-4 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 border-0 text-lg"
+                  className="from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground transform rounded-xl border-0 bg-gradient-to-r px-10 py-4 text-lg font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
                 >
                   🧪 Try Demo Mode
                 </button>
@@ -99,7 +97,7 @@ export default function HomePage() {
 
               {/* Demo mode indicator - using muted colors */}
               {isDemoMode && (
-                <div className="mt-8 p-4 bg-muted/50 border border-border rounded-xl">
+                <div className="bg-muted/50 border-border mt-8 rounded-xl border p-4">
                   <p className="text-muted-foreground text-sm font-medium">
                     Demo mode active - showing sample portfolio data
                   </p>
@@ -112,12 +110,12 @@ export default function HomePage() {
         <>
           {/* Demo Mode Banner - matches image layout */}
           {isDemoMode && (
-            <div className="mb-8 p-6 bg-accent/20 border border-accent rounded-xl shadow-lg">
+            <div className="bg-accent/20 border-accent mb-8 rounded-xl border p-6 shadow-lg">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <span className="text-2xl">🌱</span>
                   <div>
-                    <span className="text-accent-foreground font-semibold text-xl">
+                    <span className="text-accent-foreground text-xl font-semibold">
                       Demo Mode Active
                     </span>
                     <div className="text-muted-foreground text-sm">
@@ -128,10 +126,10 @@ export default function HomePage() {
                 {/* Exit button - using accent theme */}
                 <button
                   onClick={() => {
-                    setIsDemoMode(false);
-                    setConnection(null, null);
+                    setIsDemoMode(false)
+                    setConnection(null, null)
                   }}
-                  className="px-6 py-3 text-accent-foreground text-sm font-medium border border-accent rounded-lg transition-all duration-200 bg-accent/20 hover:bg-accent/30"
+                  className="text-accent-foreground border-accent bg-accent/20 hover:bg-accent/30 rounded-lg border px-6 py-3 text-sm font-medium transition-all duration-200"
                 >
                   Exit Demo
                 </button>
@@ -142,11 +140,11 @@ export default function HomePage() {
           {/* Portfolio Overview Section */}
           <section id="portfolio" className="mb-16">
             {/* Section heading - matches image */}
-            <h2 className="text-4xl font-bold text-foreground mb-10 flex items-center gap-4">
+            <h2 className="text-foreground mb-10 flex items-center gap-4 text-4xl font-bold">
               {/* Icon container - using primary colors */}
-              <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="from-primary to-primary/80 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r shadow-lg">
                 <svg
-                  className="w-6 h-6 text-primary-foreground"
+                  className="text-primary-foreground h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -167,11 +165,11 @@ export default function HomePage() {
           {/* DeFi Positions Section */}
           <section id="defi" className="mb-16">
             {/* Section heading - matches image */}
-            <h2 className="text-4xl font-bold text-foreground mb-10 flex items-center gap-4">
+            <h2 className="text-foreground mb-10 flex items-center gap-4 text-4xl font-bold">
               {/* Icon container - using primary colors */}
-              <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="from-primary to-primary/80 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r shadow-lg">
                 <svg
-                  className="w-6 h-6 text-primary-foreground"
+                  className="text-primary-foreground h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -191,11 +189,11 @@ export default function HomePage() {
           {/* DeFi Positions Section */}
           <section id="transactions" className="mb-16">
             {/* Section heading - matches image */}
-            <h2 className="text-4xl font-bold text-foreground mb-10 flex items-center gap-4">
+            <h2 className="text-foreground mb-10 flex items-center gap-4 text-4xl font-bold">
               {/* Icon container - using primary colors */}
-              <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="from-primary to-primary/80 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r shadow-lg">
                 <svg
-                  className="w-6 h-6 text-primary-foreground"
+                  className="text-primary-foreground h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -215,5 +213,5 @@ export default function HomePage() {
         </>
       )}
     </main>
-  );
+  )
 }

@@ -1,6 +1,6 @@
 export const claudeTheme = {
-  name: "Claude",
-  id: "claude",
+  name: 'Claude',
+  id: 'claude',
   cssContent: `
   @import "tailwindcss";
   
@@ -178,4 +178,4 @@ export const claudeTheme = {
     transition: all 0.2s ease;
   }
     `,
-};
+}

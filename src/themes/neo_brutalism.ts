@@ -1,6 +1,6 @@
 export const neoBrutalismTheme = {
-  name: "Neo Brutalism",
-  id: "neo-brutalism",
+  name: 'Neo Brutalism',
+  id: 'neo-brutalism',
   cssContent: `
 @import "tailwindcss";
 
@@ -186,4 +186,4 @@ body {
   transition: all 0.2s ease;
 }
   `,
-};
+}

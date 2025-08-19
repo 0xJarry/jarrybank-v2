@@ -29,22 +29,35 @@ npm run start
 npm run lint
 ```
 
+## Current Development Context
+
+### Recommended Workflow
+
+- Start a new session by reading CURRENT_CONTEXT.md
+- Before implementing: Check FEATURE_IMPACT_MATRIX.md + use CHANGE_IMPACT_CHECKLIST.md
+- During work: Update CURRENT_CONTEXT.md with your progress
+- End session by updating CURRENT_CONTEXT.md
+- After each feature: Update IMPLEMENTATION_REVIEW_TEMPLATE.md
+
+**See CURRENT_CONTEXT.md for:**
+
+- Active development status
+- Recent changes and session notes
+- Known issues and TODOs
+- System state and health metrics
+
+This file is updated frequently during development sessions.
+
 ## Architecture
 
 ### Theme System
-
-The app has a sophisticated theme system that:
 
 - Stores themes as complete CSS content strings in `src/themes/`
 - Dynamically injects CSS at runtime via `src/store/themeStore.ts`
 - Automatically discovers themes from `src/themes/index.ts`
 - Persists user selection to localStorage
 - Supports both light and dark modes independently
-
-**To add a new theme:**
-
-1. Create a theme file in `src/themes/` with `name`, `id`, and `cssContent` (full CSS)
-2. Import and add it to the `allThemes` array in `src/themes/index.ts`
+- to add a new theme: Import and add it to the `allThemes` array in `src/themes/index.ts`
 
 ### State Management
 

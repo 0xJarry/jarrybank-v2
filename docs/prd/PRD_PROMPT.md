@@ -6,34 +6,38 @@ A multi-chain portfolio tracker similar to vfat.io + DeBank with integrated DeFi
 TECHNICAL ARCHITECTURE:
 
 Frontend Stack:
+
 - Framework: latest Next.js with App Router
 - Styling: Tailwind CSS with shadcn/ui components
 - Web3 Integration: Wagmi v2, Viem, RainbowKit for wallet connections
 - Responsive Design: Mobile-first approach with full responsive layouts
 
 Backend Infrastructure:
+
 - API Layer: Next.js API routes deployed on Vercel
 - Caching: Upstash Redis for token prices, balances, and RPC responses
 - Future Database: Supabase (PostgreSQL) for user data when auth is implemented
 - Background Jobs: Vercel Cron Jobs for cache warming
 
 Web3 Infrastructure:
+
 - RPC Providers: QuickNode (primary), Alchemy (fallback), with configured fallback chains
 - Batch RPC Strategy: Multicall3 for efficient token balance fetching (no individual calls per token)
 - Chain Support: Avalanche (primary), then Ethereum, Arbitrum, Optimism
 
 Data Architecture:
+
 - Modular Price Provider System:
-  * Interface-based design allowing multiple price sources
-  * Primary: Moralis API
-  * Fallbacks: DexScreener, 1inch Price API, DEX direct queries
-  * Configurable provider priority and fallback chains
-  * Cached with 30-second TTL in Redis
+  - Interface-based design allowing multiple price sources
+  - Primary: Moralis API
+  - Fallbacks: DexScreener, 1inch Price API, DEX direct queries
+  - Configurable provider priority and fallback chains
+  - Cached with 30-second TTL in Redis
 
 - Token Balance Fetching:
-  * Single multicall for all ERC20 balances
-  * Native token balance in same call
-  * Support for custom token lists
+  - Single multicall for all ERC20 balances
+  - Native token balance in same call
+  - Support for custom token lists
 
 CORE FEATURES (MVP):
 
@@ -83,29 +87,34 @@ PHASE 2 FEATURES:
 TECHNICAL REQUIREMENTS:
 
 Performance:
+
 - Initial load time < 2 seconds
 - Subsequent navigation < 500ms
 - Efficient RPC usage (< 5 RPC calls per full portfolio load)
 - Implement progressive loading (show cached data first, then update)
 
 Scalability:
+
 - Modular API design for easy provider additions
 - Horizontal scaling capability via serverless
 - Chain-agnostic architecture for easy expansion
 
 Error Handling:
+
 - Graceful RPC provider fallbacks
 - Cached data fallback when APIs unavailable
 - User-friendly error messages
 - Retry logic with exponential backoff
 
 Security:
+
 - No private keys stored
 - All transactions through user's connected wallet
 - Input validation on all API endpoints
 - Rate limiting per IP
 
 DESIGN PRINCIPLES:
+
 - Information density over aesthetics (vfat.io approach)
 - Minimal clicks to perform actions
 - Clear visual hierarchy for important information
@@ -113,18 +122,21 @@ DESIGN PRINCIPLES:
 - Accessibility compliant (WCAG 2.1 AA)
 
 SUCCESS METRICS:
+
 - Page load time < 2s for 50-token portfolio
 - 95% uptime for price feeds
 - Support for 10+ protocols on Avalanche
 - Mobile usage > 30% of traffic
 
 CONSTRAINTS:
+
 - Start with Avalanche only, architecture must support multi-chain expansion
 - No user authentication in MVP
 - Must work with free or affordable API tiers
 - Frontend and backend in single Next.js deployment initially
 
 DELIVERABLES:
+
 1. Technical specification document
 2. API endpoint documentation
 3. Component library documentation

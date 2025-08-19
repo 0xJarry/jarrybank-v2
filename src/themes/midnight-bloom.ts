@@ -1,6 +1,6 @@
 export const midnightBloomTheme = {
-  name: "Midnight Bloom",
-  id: "midnight-bloom",
+  name: 'Midnight Bloom',
+  id: 'midnight-bloom',
   cssContent: `
   @import "tailwindcss";
   
@@ -178,4 +178,4 @@ export const midnightBloomTheme = {
     transition: all 0.2s ease;
   }
     `,
-};
+}

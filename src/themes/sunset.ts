@@ -4,8 +4,8 @@
  */
 
 export const sunsetTheme = {
-  name: "Sunset",
-  id: "sunset",
+  name: 'Sunset',
+  id: 'sunset',
   cssContent: `
 @import "tailwindcss";
 
@@ -183,4 +183,4 @@ body {
   transition: all 0.2s ease;
 }
   `,
-};
+}

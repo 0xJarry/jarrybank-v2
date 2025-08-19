@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
-import { useEffect } from "react";
-import { useAccount } from "wagmi";
-import { usePortfolioStore } from "@/store/portfolioStore";
-import { useTokenBalances, useTokenPrices } from "./useTokenBalances";
+import { useEffect } from 'react'
+import { useAccount } from 'wagmi'
+import { usePortfolioStore } from '@/store/portfolioStore'
+import { useTokenBalances } from './useTokenBalances'
 
 /**
  * Hook to sync wallet connection state with portfolio store
@@ -11,47 +11,39 @@ import { useTokenBalances, useTokenPrices } from "./useTokenBalances";
  * Clears data when wallet disconnects
  */
 export function useWalletSync() {
-  const { address, chainId, isConnected } = useAccount();
-  const {
-    setConnection,
-    setTokens,
-    setLoading,
-    clearPortfolio,
-  } = usePortfolioStore();
-  
-  // Fetch token balances
-  const { tokens, isLoading: balancesLoading } = useTokenBalances();
-  
-  // Fetch token prices and calculate values
-  const { tokens: tokensWithPrices, isLoading: pricesLoading } = useTokenPrices(tokens);
+  const { address, chainId, isConnected } = useAccount()
+  const { setConnection, setTokens, setLoading, clearPortfolio } = usePortfolioStore()
+
+  // Fetch token balances with prices
+  const { tokens, isLoading } = useTokenBalances()
 
   // Sync wallet connection state
   useEffect(() => {
     if (isConnected && address && chainId) {
-      setConnection(address, chainId);
+      setConnection(address, chainId)
     } else {
-      setConnection(null, null);
-      clearPortfolio();
+      setConnection(null, null)
+      clearPortfolio()
     }
-  }, [isConnected, address, chainId, setConnection, clearPortfolio]);
+  }, [isConnected, address, chainId, setConnection, clearPortfolio])
 
   // Update tokens in store when data changes
   useEffect(() => {
-    if (tokensWithPrices.length > 0) {
-      setTokens(tokensWithPrices);
+    if (tokens.length > 0) {
+      setTokens(tokens)
     }
-  }, [tokensWithPrices, setTokens]);
+  }, [tokens, setTokens])
 
   // Update loading state
   useEffect(() => {
-    setLoading(balancesLoading || pricesLoading);
-  }, [balancesLoading, pricesLoading, setLoading]);
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   return {
     isConnected,
     address,
     chainId,
-    tokens: tokensWithPrices,
-    isLoading: balancesLoading || pricesLoading,
-  };
+    tokens,
+    isLoading,
+  }
 }

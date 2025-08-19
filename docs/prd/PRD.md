@@ -1,4 +1,5 @@
 # Product Requirements Document
+
 ## Web3 Portfolio Tracker & DeFi Interaction Platform
 
 **Version:** 1.0  
@@ -14,9 +15,11 @@ This PRD outlines the development of a comprehensive Web3 portfolio tracking and
 ## Product Vision
 
 ### Mission Statement
+
 To create the most efficient and user-friendly DeFi portfolio management platform that empowers users to track, analyze, and optimize their crypto holdings across multiple chains with seamless protocol interactions.
 
 ### Key Differentiators
+
 - **Information Density First**: Prioritizing data visibility over aesthetic design
 - **No Authentication On Initial Version**: Immediate value without sign-up friction
 - **Efficient RPC Usage**: Optimized multicall strategies for minimal network requests
@@ -28,16 +31,15 @@ To create the most efficient and user-friendly DeFi portfolio management platfor
 ### Frontend Stack
 
 #### Core Technologies
+
 - **Framework**: Latest Next.js with App Router
   - Server-side rendering for SEO and performance
   - API routes for backend functionality
   - Static generation for marketing pages
-  
-- **Styling System**: 
+- **Styling System**:
   - Tailwind CSS for utility-first styling
   - shadcn/ui component library for consistent UI elements
   - CSS modules for component-specific styles
-  
 - **Web3 Integration**:
   - Wagmi v2 for React hooks and wallet management
   - Viem for type-safe Ethereum interactions
@@ -45,6 +47,7 @@ To create the most efficient and user-friendly DeFi portfolio management platfor
   - Ethers.js v6 for additional utilities
 
 #### State Management
+
 - **Client State**: Zustand for lightweight state management
 - **Server State**: TanStack Query for caching and synchronization
 - **Persistent State**: LocalStorage for user preferences
@@ -52,6 +55,7 @@ To create the most efficient and user-friendly DeFi portfolio management platfor
 ### Backend Infrastructure
 
 #### API Architecture
+
 ```
 /api
 ├── /v1
@@ -71,6 +75,7 @@ To create the most efficient and user-friendly DeFi portfolio management platfor
 ```
 
 #### Caching Strategy
+
 - **Provider**: Upstash Redis
 - **TTL Configuration**:
   - Token prices: 5 minutes (reduced from 30 seconds for cost efficiency)
@@ -81,6 +86,7 @@ To create the most efficient and user-friendly DeFi portfolio management platfor
 - **Cost Consideration**: Conservative caching to minimize API costs
 
 #### Future Database (Phase 3)
+
 - **Provider**: Supabase (PostgreSQL)
 - **Schema Design**:
   - Users table (authentication)
@@ -91,24 +97,25 @@ To create the most efficient and user-friendly DeFi portfolio management platfor
 ### Web3 Infrastructure
 
 #### RPC Provider Strategy
+
 ```pseudo
 RPC_PROVIDER_CONFIG = {
   PRIMARY_PROVIDER: "QuickNode"
   FALLBACK_PROVIDERS: ["Alchemy", "Infura"]
-  
+
   RETRY_STRATEGY: {
     MAX_ATTEMPTS: 3
     BACKOFF_TYPE: "exponential"
     MAX_DELAY_MS: 5000
     TIMEOUT_MS: 10000
   }
-  
+
   FAILOVER_LOGIC: {
     HEALTH_CHECK_INTERVAL: 60 seconds  # Reduced from 30 seconds
     UNHEALTHY_THRESHOLD: 3 consecutive failures
     AUTO_SWITCH_ON_FAILURE: true
   }
-  
+
   RATE_LIMITING: {
     PRIMARY: "1000 requests/minute"
     FALLBACK: "300 requests/second"
@@ -117,12 +124,14 @@ RPC_PROVIDER_CONFIG = {
 ```
 
 #### Multicall Implementation
+
 - **Contract**: Multicall3 (0xcA11bde05977b3631167028862bE2a173976CA11)
 - **Batch Size**: 50 calls per request (reduced from 100 for reliability)
 - **Error Handling**: Individual call failure isolation
 - **Gas Optimization**: Dynamic batch sizing based on network conditions
 
 #### Chain Support Roadmap
+
 1. **Phase 1**: Avalanche C-Chain only
 2. **Phase 2**: Ethereum Mainnet
 3. **Phase 3**: Arbitrum, Optimism
@@ -131,12 +140,13 @@ RPC_PROVIDER_CONFIG = {
 ### Data Architecture
 
 #### Price Provider System
+
 ```pseudo
 PRICE_PROVIDER_INTERFACE = {
   NAME: string
   PRIORITY: number (1 = highest, 3 = lowest)  # Reduced from 4 providers
   HEALTH_STATUS: boolean
-  
+
   METHODS:
     GET_SINGLE_PRICE(token_symbol) → PriceData
     GET_BATCH_PRICES(token_list) → Map<token, PriceData>
@@ -146,18 +156,18 @@ PRICE_PROVIDER_INTERFACE = {
 PRICE_AGGREGATOR = {
   PROVIDERS: [
     MoralisProvider (Priority 1)
-    DexScreenerProvider (Priority 2) 
+    DexScreenerProvider (Priority 2)
     DexQueryProvider (Priority 3)  # Removed OneInch for simplicity
   ]
-  
+
   PRICE_FETCHING_STRATEGY: "Waterfall with Fallback"
-  
+
   GET_PRICE(token) → PriceData:
     1. Try Priority 1 provider
     2. If fails → try Priority 2 provider
     3. If fails → try Priority 3 provider
     4. If all fail → return error
-    
+
   BATCH_PRICE_FETCHING:
     - Split large token lists across providers
     - Aggregate results from multiple sources
@@ -175,6 +185,7 @@ PRICE_DATA_STRUCTURE = {
 ```
 
 #### Token Balance Architecture
+
 ```pseudo
 BALANCE_FETCHER_INTERFACE = {
   FETCH_BALANCES(wallet_address, token_list) → BalanceMap:
@@ -182,17 +193,17 @@ BALANCE_FETCHER_INTERFACE = {
        - Get native token balance (ETH/AVAX)
        - Get ERC20 token balances for all tokens
        - Get ERC721/ERC1155 NFT balances
-    
+
     2. EXECUTE_MULTICALL:
        - Send batch request to blockchain
        - Handle RPC rate limiting
        - Retry on failure with exponential backoff
-    
+
     3. PROCESS_RESULTS:
        - Parse balance data
        - Convert to human-readable format
        - Cache results for performance
-    
+
     4. RETURN_BALANCE_MAP:
        - Token symbol → balance amount
        - Token symbol → USD value
@@ -208,7 +219,7 @@ MULTICALL_STRATEGY = {
 
 BALANCE_CACHING = {
   CACHE_DURATION: 5 minutes
-  INVALIDATION_TRIGGERS: 
+  INVALIDATION_TRIGGERS:
     - New transaction detected
     - Manual refresh requested
     - Cache expired
@@ -221,7 +232,8 @@ BALANCE_CACHING = {
 ### 1. Portfolio Overview
 
 #### Multi-Wallet Management
-- **Add Wallet**: 
+
+- **Add Wallet**:
   - Manual address input with ENS support
   - Connect wallet button for auto-detection
   - QR code scanner for mobile
@@ -232,6 +244,7 @@ BALANCE_CACHING = {
 - **Storage**: LocalStorage with encryption for addresses
 
 #### Portfolio Display
+
 ```
 ┌─────────────────────────────────────┐
 │ Total Portfolio Value               │
@@ -248,6 +261,7 @@ BALANCE_CACHING = {
 ```
 
 #### Token Balance Features
+
 - **Real-time Updates**: Manual refresh with loading indicator
 - **Price Changes**: 24h change display only (simplified from 7d, 30d)
 - **Sorting Options**: Value, change %, alphabetical
@@ -257,22 +271,22 @@ BALANCE_CACHING = {
 ### 2. DeFi Position Tracking
 
 #### Supported Position Types
+
 - **Liquidity Pools**:
   - Token pair display
   - Pool share percentage
   - Basic APR display (if available)
-  
 - **Yield Farming**:
   - Staked amount
   - Pending rewards
   - Basic lock period info
-  
 - **Lending/Borrowing**:
   - Supply balance
   - Borrow balance
   - Health factor (if available)
 
 #### Protocol Integration (Avalanche)
+
 - Pharaoh
 - Blackhole
 - Trader Joe V2
@@ -283,6 +297,7 @@ BALANCE_CACHING = {
 ### 3. Transaction Features
 
 #### One-Click Claims
+
 ```pseudo
 CLAIMABLE_REWARD_STRUCTURE = {
   PROTOCOL: string (e.g., "Trader Joe", "GMX")
@@ -302,11 +317,11 @@ CLAIM_BUTTON_COMPONENT = {
 ```
 
 #### Transaction Management
+
 - **Pre-flight Checks**:
   - Sufficient gas balance
   - Token approval status
   - Basic slippage tolerance (0.5% default)
-  
 - **Execution Flow**:
   1. Simulate transaction
   2. Display gas estimate
@@ -318,6 +333,7 @@ CLAIM_BUTTON_COMPONENT = {
 ### 4. User Experience Design
 
 #### Information Architecture
+
 ```
 Home
 ├── Portfolio Overview
@@ -334,6 +350,7 @@ Home
 ```
 
 #### Mobile Optimization
+
 - **Touch Targets**: Minimum 44x44px
 - **Swipe Gestures**: Navigate between views
 - **Bottom Navigation**: Thumb-friendly primary actions
@@ -341,6 +358,7 @@ Home
 - **Progressive Disclosure**: Expand/collapse for details
 
 #### Loading States
+
 ```pseudo
 LOADING_STATE_ENUM = {
   INITIAL: "Connecting to network..."
@@ -356,18 +374,19 @@ LOADING_STATE_ENUM = {
 ### 1. Advanced DeFi Interactions
 
 #### Liquidity Management
+
 - **Add Liquidity**:
   - Zap from single token
   - Optimal ratio calculation
   - Price impact warning
   - IL risk indicator
-  
 - **Remove Liquidity**:
   - Partial or full withdrawal
   - Single-sided exit options
   - Emergency withdrawal
 
 #### Auto-Compound Engine
+
 ```pseudo
 interface AutoCompoundStrategy {
   protocol: string;
@@ -375,7 +394,7 @@ interface AutoCompoundStrategy {
   frequency: "daily" | "weekly" | "threshold";
   minReward: BigNumber;
   gasLimit: BigNumber;
-  
+
   shouldCompound(): boolean;
   estimateGas(): Promise<BigNumber>;
   execute(): Promise<TransactionHash>;
@@ -385,17 +404,18 @@ interface AutoCompoundStrategy {
 ### 2. User Account System
 
 #### Authentication Flow
+
 - **Options**:
   - Email/password (Supabase Auth)
   - Social login (Google, Discord)
   - Wallet signature (SIWE)
-  
 - **Progressive Enhancement**:
   - Anonymous usage by default
   - Prompt for account on advanced features
   - Data migration from local to cloud
 
 #### Account Features
+
 - **Portfolio Snapshots**: Daily value tracking
 - **Custom Alerts**: Price movements, position health
 - **Export Data**: CSV download of transactions
@@ -406,18 +426,19 @@ interface AutoCompoundStrategy {
 ### 1. Real-time Updates
 
 #### WebSocket Implementation
+
 ```pseudo
 class PriceWebSocket {
   private ws: WebSocket;
   private subscriptions: Set<string>;
-  
+
   subscribe(tokens: string[]) {
     this.ws.send({
       action: "subscribe",
       tokens: tokens
     });
   }
-  
+
   onPriceUpdate(callback: (price: PriceUpdate) => void) {
     this.ws.on("price", callback);
   }
@@ -425,12 +446,14 @@ class PriceWebSocket {
 ```
 
 #### Update Strategies
+
 - **Prices**: Real-time for watched tokens
 - **Balances**: Poll every 5 minutes (reduced from 60 seconds)
 - **Positions**: On-chain event listeners
 - **Rewards**: Calculate locally, verify on-chain
 
 ### 2. Multi-Chain Support
+
 - Avalanche C-Chain
 - Ethereum Mainnet
 - Arbitrum, Optimism
@@ -441,12 +464,14 @@ class PriceWebSocket {
 ### Performance Metrics
 
 #### Load Time Targets
+
 - **Initial Load**: < 3 seconds (LCP) - relaxed from 2 seconds
 - **Time to Interactive**: < 4 seconds (TTI) - relaxed from 3 seconds
 - **First Contentful Paint**: < 1.5 seconds (FCP) - relaxed from 1 second
 - **Cumulative Layout Shift**: < 0.1 (CLS)
 
 #### Optimization Strategies
+
 - **Code Splitting**: Route-based chunks
 - **Image Optimization**: Next.js Image component
 - **Font Loading**: FOUT prevention
@@ -456,25 +481,27 @@ class PriceWebSocket {
 ### Scalability Design
 
 #### Horizontal Scaling
+
 ```yaml
 infrastructure:
   frontend:
     provider: Vercel
-    regions: ["us-east-1"]  # Single region for Phase 1
+    regions: ['us-east-1'] # Single region for Phase 1
     scaling: automatic
-    
+
   api:
     provider: Vercel Functions
     timeout: 30s
     memory: 1024MB
-    
+
   cache:
     provider: Upstash Redis
-    maxConnections: 100  # Reduced from 1000 for Phase 1
+    maxConnections: 100 # Reduced from 1000 for Phase 1
     evictionPolicy: LRU
 ```
 
 #### Rate Limiting
+
 ```pseudo
 const rateLimits = {
   anonymous: {
@@ -495,12 +522,14 @@ const rateLimits = {
 ### Error Handling
 
 #### Error Categories
+
 1. **Network Errors**: RPC timeouts, API failures
 2. **Validation Errors**: Invalid addresses, amounts
 3. **Business Logic Errors**: Insufficient balance, slippage
 4. **System Errors**: Database, cache failures
 
 #### Recovery Strategies
+
 ```pseudo
 class ErrorBoundary {
   static handlers = {
@@ -515,18 +544,21 @@ class ErrorBoundary {
 ### Security Requirements
 
 #### Frontend Security
+
 - **CSP Headers**: Basic content security policy
 - **XSS Prevention**: Input sanitization
 - **CORS**: Whitelist allowed origins
 - **Secrets**: No API keys in client code
 
 #### Backend Security
+
 - **Input Validation**: Zod schemas for all endpoints
 - **Rate Limiting**: Per-IP and per-wallet
 - **SQL Injection**: Parameterized queries only
 - **Authentication**: JWT with refresh tokens (Phase 2)
 
 #### Smart Contract Interaction
+
 - **Simulation**: All transactions simulated first
 - **Approval Limits**: Exact amounts only
 - **Reentrancy**: Check for guards
@@ -535,10 +567,11 @@ class ErrorBoundary {
 ## Design System
 
 ### Visual Hierarchy
+
 ```
 Typography Scale:
 - H1: 32px - Portfolio Value
-- H2: 24px - Section Headers  
+- H2: 24px - Section Headers
 - H3: 20px - Card Headers
 - Body: 16px - Standard Text
 - Small: 14px - Labels
@@ -556,6 +589,7 @@ Color Palette:
 ### Component Library
 
 #### Core Components
+
 - **TokenRow**: Display token with balance and value
 - **PositionCard**: DeFi position summary
 - **TransactionModal**: Transaction confirmation UI
@@ -564,6 +598,7 @@ Color Palette:
 - **ValueDisplay**: Formatted USD values with change
 
 #### Layout Components
+
 - **PageContainer**: Consistent padding and max-width
 - **Card**: Elevated content sections
 - **Tabs**: View switching
@@ -571,28 +606,38 @@ Color Palette:
 - **EmptyState**: No data messaging
 
 ### Responsive Breakpoints
+
 ```css
 /* Mobile First */
-@media (min-width: 640px) { /* Tablet */ }
-@media (min-width: 1024px) { /* Desktop */ }
-@media (min-width: 1440px) { /* Wide */ }
+@media (min-width: 640px) {
+  /* Tablet */
+}
+@media (min-width: 1024px) {
+  /* Desktop */
+}
+@media (min-width: 1440px) {
+  /* Wide */
+}
 ```
 
 ## Success Metrics
 
 ### Performance KPIs
+
 - **Page Load Time**: < 3s for 50-token portfolio (P95) - relaxed from 2s
 - **API Response Time**: < 1000ms (P95) - relaxed from 500ms
 - **Cache Hit Rate**: > 70% - relaxed from 80%
 - **Error Rate**: < 1% - relaxed from 0.1%
 
 ### User Engagement
+
 - **Daily Active Users**: 5,000 within 3 months - reduced from 10,000
 - **Mobile Usage**: > 30% of total traffic
 - **Retention Rate**: > 30% weekly active - reduced from 40%
 - **Transaction Success**: > 90% completion rate - reduced from 95%
 
 ### Technical Metrics
+
 - **Uptime**: 99% availability - relaxed from 99.9%
 - **RPC Efficiency**: < 10 calls per portfolio load - relaxed from 5
 - **Protocol Coverage**: 5+ Avalanche protocols - reduced from 10+
@@ -601,52 +646,63 @@ Color Palette:
 ## Implementation Roadmap
 
 ### Phase 1: MVP (Weeks 1-8)
+
 **Week 1-2**: Project setup and infrastructure
+
 - Next.js boilerplate with TypeScript
 - Tailwind + shadcn/ui configuration
 - Web3 provider setup
 - Redis cache initialization
 
 **Week 3-4**: Core portfolio features
+
 - Wallet connection flow
 - Token balance fetching
 - Price provider integration
 - Portfolio value calculation
 
 **Week 5-6**: DeFi position tracking
+
 - Protocol adapters (Trader Joe, GMX)
 - Position parsing logic
 - Rewards calculation
 - Read-only display
 
 **Week 7-8**: Transaction features
+
 - Claim functionality
 - Gas estimation
 - Transaction tracking
 - Error handling
 
 ### Phase 2: Enhancement (Weeks 9-16)
+
 **Week 9-10**: User accounts
+
 - Supabase integration
 - Authentication flow
 - Data migration
 
 **Week 11-12**: Advanced DeFi
+
 - Liquidity management
 - Auto-compound logic
 - Zap functionality
 
 **Week 13-14**: Real-time features
+
 - WebSocket setup
 - Live price updates
 - Push notifications
 
 **Week 15-16**: Multi-chain
+
 - Ethereum support
 - Chain abstraction layer
 - Cross-chain portfolio
 
 ### Phase 3: Scale (Weeks 17-24)
+
 - Additional chain integration
 - Mobile app development
 - Advanced analytics
@@ -655,24 +711,27 @@ Color Palette:
 ## Risk Assessment
 
 ### Technical Risks
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| RPC rate limits | High | Medium | Multiple providers, caching |
-| Price API costs | Medium | High | Tiered providers, aggressive caching |
-| Smart contract bugs | High | Low | Simulation, audit reviews |
-| Scalability issues | High | Medium | Serverless architecture, CDN |
+
+| Risk                | Impact | Probability | Mitigation                           |
+| ------------------- | ------ | ----------- | ------------------------------------ |
+| RPC rate limits     | High   | Medium      | Multiple providers, caching          |
+| Price API costs     | Medium | High        | Tiered providers, aggressive caching |
+| Smart contract bugs | High   | Low         | Simulation, audit reviews            |
+| Scalability issues  | High   | Medium      | Serverless architecture, CDN         |
 
 ### Business Risks
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| Low user adoption | High | Medium | Marketing, partnerships |
-| Competitor features | Medium | High | Rapid iteration, user feedback |
-| Regulatory changes | High | Low | Compliance monitoring |
-| Security breach | Critical | Low | Security audits, bug bounty |
+
+| Risk                | Impact   | Probability | Mitigation                     |
+| ------------------- | -------- | ----------- | ------------------------------ |
+| Low user adoption   | High     | Medium      | Marketing, partnerships        |
+| Competitor features | Medium   | High        | Rapid iteration, user feedback |
+| Regulatory changes  | High     | Low         | Compliance monitoring          |
+| Security breach     | Critical | Low         | Security audits, bug bounty    |
 
 ## Deliverables
 
 ### Documentation
+
 1. **Technical Specification**
    - API documentation (OpenAPI)
    - Database schema
@@ -700,17 +759,19 @@ Color Palette:
 ## Appendices
 
 ### A. Competitor Analysis
+
 - **vfat.io**: Dense information, protocol coverage
 - **DeBank**: User experience, social features
 - **Zapper**: Transaction builder, NFT support
 - **Zerion**: Mobile app, portfolio tracking
 
 ### B. Protocol Adapters
+
 ```pseudo
 interface ProtocolAdapter {
   name: string;
   chain: Chain;
-  
+
   getPositions(address: string): Promise<Position[]>;
   getRewards(address: string): Promise<Reward[]>;
   prepareClaimTx(rewards: Reward[]): TransactionRequest;
@@ -718,6 +779,7 @@ interface ProtocolAdapter {
 ```
 
 ### C. API Response Formats
+
 ```pseudo
 // Portfolio Value Response
 {
@@ -735,12 +797,13 @@ interface ProtocolAdapter {
 ```
 
 ### D. Environment Variables
+
 ```env
 # RPC Providers
 QUICKNODE_URL=
 ALCHEMY_API_KEY=
 
-# Price Providers  
+# Price Providers
 MORALIS_API_KEY=
 DEXSCREENER_API_KEY=
 DEXQUERY_API_KEY=
@@ -758,6 +821,7 @@ SENTRY_DSN=  # Phase 2
 ---
 
 **Document Control**
+
 - Author: Product Team
 - Review: Engineering, Design, Business
 - Approval: Product Owner

@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Button } from "@/components/ui/button";
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Button } from '@/components/ui/button'
 
 /**
  * Custom wallet connection component with consistent theming
@@ -10,16 +10,9 @@ import { Button } from "@/components/ui/button";
 export function WalletConnect() {
   return (
     <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openChainModal,
-        openConnectModal,
-        mounted,
-      }) => {
-        const ready = mounted;
-        const connected = ready && account && chain;
+      {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
+        const ready = mounted
+        const connected = ready && account && chain
 
         return (
           <div className="flex items-center space-x-2">
@@ -27,21 +20,17 @@ export function WalletConnect() {
               // Loading state - shows skeleton loader
               if (!ready) {
                 return (
-                  <div className="h-9 w-20 rounded-lg bg-muted border border-border animate-pulse" />
-                );
+                  <div className="bg-muted border-border h-9 w-20 animate-pulse rounded-lg border" />
+                )
               }
 
               // Disconnected state - shows connect button
               if (!connected) {
                 return (
-                  <Button
-                    onClick={openConnectModal}
-                    size="sm"
-                    className="px-6 py-2 h-8"
-                  >
+                  <Button onClick={openConnectModal} size="sm" className="h-8 px-6 py-2">
                     Connect
                   </Button>
-                );
+                )
               }
 
               // Wrong network state - shows network switch button
@@ -51,11 +40,11 @@ export function WalletConnect() {
                     onClick={openChainModal}
                     variant="destructive"
                     size="sm"
-                    className="px-6 py-2 h-8"
+                    className="h-8 px-6 py-2"
                   >
                     Wrong network
                   </Button>
-                );
+                )
               }
 
               // Connected state - shows network and account buttons
@@ -66,10 +55,10 @@ export function WalletConnect() {
                     onClick={openChainModal}
                     variant="outline"
                     size="sm"
-                    className="px-4 py-2 h-8 flex items-center"
+                    className="flex h-8 items-center px-4 py-2"
                   >
-                    <div className="h-3 w-3 rounded-full bg-primary mr-2 flex-shrink-0" />
-                    <span className="truncate max-w-24">{chain.name}</span>
+                    <div className="bg-primary mr-2 h-3 w-3 flex-shrink-0 rounded-full" />
+                    <span className="max-w-24 truncate">{chain.name}</span>
                   </Button>
 
                   {/* Account button */}
@@ -77,18 +66,16 @@ export function WalletConnect() {
                     onClick={openAccountModal}
                     variant="outline"
                     size="sm"
-                    className="px-4 py-2 h-8"
+                    className="h-8 px-4 py-2"
                   >
-                    <span className="truncate max-w-32">
-                      {account.displayName}
-                    </span>
+                    <span className="max-w-32 truncate">{account.displayName}</span>
                   </Button>
                 </div>
-              );
+              )
             })()}
           </div>
-        );
+        )
       }}
     </ConnectButton.Custom>
-  );
+  )
 }

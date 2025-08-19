@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { config } from "@/lib/wagmi";
-import "@rainbow-me/rainbowkit/styles.css";
-import { useMemo } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider } from 'wagmi'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { config } from '@/lib/wagmi'
+import '@rainbow-me/rainbowkit/styles.css'
+import { useMemo } from 'react'
 
 /**
  * Web3 Provider wrapper component
@@ -27,7 +27,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         },
       }),
     []
-  ); // Empty dependency array ensures it's created only once
+  ) // Empty dependency array ensures it's created only once
 
   return (
     <WagmiProvider config={config}>
@@ -36,10 +36,11 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           locale="en-US"
           showRecentTransactions={true}
           initialChain={config.chains[0]} // Default to Avalanche C-Chain
+          modalSize="compact"
         >
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
-  );
+  )
 }

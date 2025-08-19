@@ -25,8 +25,8 @@ Create `src/themes/forest.ts` following this exact format:
 
 ```typescript
 export const forestTheme = {
-  name: "Forest",
-  id: "forest",
+  name: 'Forest',
+  id: 'forest',
   cssContent: `
 @import "tailwindcss";
 
@@ -204,7 +204,7 @@ body {
   transition: all 0.2s ease;
 }
   `,
-};
+}
 ```
 
 ### Step 2: Add to Index
@@ -213,16 +213,16 @@ In `src/themes/index.ts`, just add the import and add it to the array:
 
 ```typescript
 // Import themes
-import { neoBrutalismTheme } from "./neo_brutalism";
-import { oceanTheme } from "./ocean";
-import { sunsetTheme } from "./sunset";
-import { forestTheme } from "./forest"; // ← Add this line
+import { neoBrutalismTheme } from './neo_brutalism'
+import { oceanTheme } from './ocean'
+import { sunsetTheme } from './sunset'
+import { forestTheme } from './forest' // ← Add this line
 
 // Export themes
-export { neoBrutalismTheme } from "./neo_brutalism";
-export { oceanTheme } from "./ocean";
-export { sunsetTheme } from "./sunset";
-export { forestTheme } from "./forest"; // ← Add this line
+export { neoBrutalismTheme } from './neo_brutalism'
+export { oceanTheme } from './ocean'
+export { sunsetTheme } from './sunset'
+export { forestTheme } from './forest' // ← Add this line
 
 // Array of all available themes
 export const allThemes: Theme[] = [
@@ -230,7 +230,7 @@ export const allThemes: Theme[] = [
   oceanTheme,
   sunsetTheme,
   forestTheme, // ← Add this line
-];
+]
 ```
 
 **The theme store automatically discovers new themes from this array!**

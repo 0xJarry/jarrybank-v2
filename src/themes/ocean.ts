@@ -4,8 +4,8 @@
  */
 
 export const oceanTheme = {
-  name: "Ocean",
-  id: "ocean",
+  name: 'Ocean',
+  id: 'ocean',
   cssContent: `
 @import "tailwindcss";
 
@@ -183,4 +183,4 @@ body {
   transition: all 0.2s ease;
 }
   `,
-};
+}

@@ -1,9 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   // Turbopack handles PostCSS automatically
   // No additional configuration needed
-  
+
   // Configure allowed image domains for external images
   images: {
     remotePatterns: [
@@ -15,6 +15,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
