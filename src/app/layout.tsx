@@ -26,8 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: `
               // Initialize theme immediately when HTML loads (client-side only)
-              (function() {
-                if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
+              if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
                 try {
                   const stored = localStorage.getItem('jarrybank-theme-store');
                   if (stored) {
@@ -38,9 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     }
                   }
                 } catch (e) {
-                  console.warn('Failed to read stored theme');
+                  // Silent fail during hydration
                 }
-              })();
+              }
             `,
           }}
         />

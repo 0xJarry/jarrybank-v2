@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { initializeTheme } from '@/store/themeStore'
 
 /**
@@ -8,11 +8,19 @@ import { initializeTheme } from '@/store/themeStore'
  * This component initializes themes before any other components render
  */
 export function ThemeInitializer() {
+  const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
-    // Initialize theme immediately when this component mounts
-    // This runs before any other components render, preventing theme flash
-    initializeTheme()
+    // Ensure we're client-side before initializing
+    setIsMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (isMounted) {
+      // Initialize theme only after client-side mount is confirmed
+      initializeTheme()
+    }
+  }, [isMounted])
 
   // This component doesn't render anything, it just initializes themes
   return null

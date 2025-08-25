@@ -19,10 +19,16 @@ interface ThemeProviderProps {
 function ThemeSync() {
   const { theme: nextTheme } = useTheme()
   const { refreshTheme } = useThemeStore()
+  const [isMounted, setIsMounted] = React.useState(false)
+
+  // Ensure we're client-side before attempting theme operations
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Listen for light/dark mode changes and refresh custom theme
   React.useEffect(() => {
-    if (nextTheme) {
+    if (isMounted && nextTheme) {
       // Small delay to ensure DOM has updated with the new class
       const timer = setTimeout(() => {
         refreshTheme()
@@ -30,7 +36,7 @@ function ThemeSync() {
 
       return () => clearTimeout(timer)
     }
-  }, [nextTheme, refreshTheme])
+  }, [nextTheme, refreshTheme, isMounted])
 
   return null
 }

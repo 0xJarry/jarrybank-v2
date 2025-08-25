@@ -130,23 +130,26 @@ function applyThemeToCSS(theme: Theme): void {
  */
 export function initializeTheme(): void {
   // Check if we're in the browser
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined' || typeof document === 'undefined') return
+
+  // Prevent multiple initializations
+  if ((window as { __THEME_INITIALIZED__?: boolean }).__THEME_INITIALIZED__) return
 
   // Check if we have a pre-loaded theme ID from the script tag
   let themeId = (window as { __INITIAL_THEME__?: string }).__INITIAL_THEME__
 
   if (!themeId) {
     // Fallback to localStorage
-    const storedThemeId = localStorage.getItem('jarrybank-theme-store')
-    if (storedThemeId) {
-      try {
+    try {
+      const storedThemeId = localStorage.getItem('jarrybank-theme-store')
+      if (storedThemeId) {
         const parsed = JSON.parse(storedThemeId)
         if (parsed.state && parsed.state.currentThemeId) {
           themeId = parsed.state.currentThemeId
         }
-      } catch {
-        console.warn('Failed to parse stored theme, using default')
       }
+    } catch {
+      console.warn('Failed to parse stored theme, using default')
     }
   }
 
@@ -171,6 +174,9 @@ export function initializeTheme(): void {
 
     // Clean up the global variable
     delete (window as { __INITIAL_THEME__?: string }).__INITIAL_THEME__
+
+    // Mark as initialized
+    ;(window as { __THEME_INITIALIZED__?: boolean }).__THEME_INITIALIZED__ = true
   }
 }
 
