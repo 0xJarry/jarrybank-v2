@@ -7,7 +7,7 @@
 
 import { type Address } from 'viem';
 import { type DiscoveredToken } from './tokenDiscovery';
-import { type PortfolioSnapshot, type TokenSnapshot } from './historicalData';
+import { type PortfolioSnapshot } from './historicalData';
 import { getSnapshots, getLatestSnapshot, getSnapshotAtTime } from './historicalData';
 
 /**

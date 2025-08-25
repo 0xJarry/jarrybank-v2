@@ -96,13 +96,16 @@ export function TokenLogo({
   // If logo is a data URL (identicon), render it directly
   if (logoUrl.startsWith('data:')) {
     return (
-      <img
-        src={logoUrl}
-        alt={symbol || 'Token'}
-        width={size}
-        height={size}
-        className={cn('rounded-full', className)}
-      />
+      <div className={cn('relative overflow-hidden rounded-full', className)} style={{ width: size, height: size }}>
+        <Image
+          src={logoUrl}
+          alt={symbol || 'Token'}
+          width={size}
+          height={size}
+          className="object-cover"
+          unoptimized
+        />
+      </div>
     );
   }
 

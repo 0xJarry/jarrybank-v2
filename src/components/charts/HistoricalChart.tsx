@@ -31,16 +31,7 @@ interface ChartDataPoint {
   formattedDate: string;
 }
 
-/**
- * Period options
- */
-const PERIOD_OPTIONS: { value: TimePeriod; label: string }[] = [
-  { value: '24h', label: '24H' },
-  { value: '7d', label: '7D' },
-  { value: '30d', label: '30D' },
-  { value: '90d', label: '90D' },
-  { value: 'all', label: 'ALL' },
-];
+// Period options removed - not used in current implementation
 
 /**
  * HistoricalChart component
@@ -124,7 +115,7 @@ export function HistoricalChart({
   /**
    * Custom tooltip
    */
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ value: number; payload: ChartDataPoint }> }) => {
     if (active && payload && payload.length) {
       const value = payload[0].value;
       const timestamp = payload[0].payload.timestamp;

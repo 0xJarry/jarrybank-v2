@@ -36,7 +36,6 @@ interface TokenRegistryStorage {
 
 // Storage keys
 const STORAGE_KEY = 'jarrybank_token_registry';
-const KNOWN_TOKENS_KEY = 'jarrybank_known_tokens';
 
 /**
  * Known tokens database (can be expanded with more chains)

@@ -5,7 +5,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { type Address } from 'viem';
+// Address type removed - not used in store interface
 import { type DiscoveredToken } from '@/lib/tokenDiscovery';
 import { type PortfolioSnapshot } from '@/lib/historicalData';
 import { type TokenPerformance, type PortfolioStats, type TimePeriod, type AllocationData } from '@/lib/analytics';

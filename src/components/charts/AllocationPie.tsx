@@ -50,7 +50,7 @@ export function AllocationPie({
   /**
    * Custom tooltip
    */
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: AllocationData }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload as AllocationData;
       
@@ -76,10 +76,10 @@ export function AllocationPie({
   /**
    * Custom legend
    */
-  const CustomLegend = ({ payload }: any) => {
+  const CustomLegend = ({ payload }: { payload: Array<{ payload: AllocationData }> }) => {
     return (
       <div className="grid grid-cols-1 gap-2 text-sm">
-        {payload.map((entry: any, index: number) => {
+        {payload.map((entry: { payload: AllocationData }, index: number) => {
           const data = entry.payload as AllocationData;
           const token = tokens.find(t => t.symbol === data.symbol);
           
@@ -159,7 +159,7 @@ export function AllocationPie({
         {showLegend && (
           <div className="flex-1 min-w-0">
             <h4 className="font-medium mb-3">Asset Allocation</h4>
-            <CustomLegend payload={allocationData} />
+            <CustomLegend payload={allocationData.map(data => ({ payload: data }))} />
           </div>
         )}
       </div>

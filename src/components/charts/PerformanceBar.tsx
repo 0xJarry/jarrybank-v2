@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { type Address } from 'viem';
 import { type DiscoveredToken } from '@/lib/tokenDiscovery';
@@ -118,7 +118,7 @@ export function PerformanceBar({
   /**
    * Custom tooltip
    */
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: ChartDataPoint }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload as ChartDataPoint;
       
@@ -166,13 +166,7 @@ export function PerformanceBar({
     return null;
   };
 
-  /**
-   * Custom bar shape
-   */
-  const CustomBar = (props: any) => {
-    const { payload, ...rest } = props;
-    return <Bar {...rest} fill={payload.color} />;
-  };
+  // Custom bar shape removed - using Cell components instead
 
   /**
    * Loading state

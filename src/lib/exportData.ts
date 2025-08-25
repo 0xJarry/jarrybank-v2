@@ -10,7 +10,7 @@ import { type Address } from 'viem';
 import { type DiscoveredToken } from './tokenDiscovery';
 import { type PortfolioSnapshot } from './historicalData';
 import { type TokenPerformance, type AllocationData } from './analytics';
-import { getSnapshots, getLatestSnapshot } from './historicalData';
+import { getSnapshots } from './historicalData';
 import { calculateTokenPerformance, generateAllocationBreakdown } from './analytics';
 
 /**
@@ -55,7 +55,7 @@ function downloadFile(content: string, filename: string, mimeType: string) {
 /**
  * Convert array to CSV string
  */
-function arrayToCSV(data: any[], headers?: string[]): string {
+function arrayToCSV(data: Array<Record<string, unknown>>, headers?: string[]): string {
   if (data.length === 0) return '';
   
   // Use provided headers or extract from first object

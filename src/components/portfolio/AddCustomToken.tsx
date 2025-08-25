@@ -188,8 +188,8 @@ export function AddCustomToken({
         setSuccess(false);
         onClose();
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Failed to add token');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to add token');
     } finally {
       setIsLoading(false);
     }

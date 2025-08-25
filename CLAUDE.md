@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## DO NOT USE **ANY** AS A TYPE FOR TYPSCRIPT!!
+
 ## Project Overview
 
 JarryBank is a modern DeFi portfolio tracker built with Next.js 15, featuring:

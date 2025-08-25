@@ -107,7 +107,20 @@ export async function discoverTokensWithMoralis(
       chain,
     });
     
-    const tokens: DiscoveredToken[] = response.toJSON().map((token: any) => ({
+    interface MoralisTokenResponse {
+      token_address: string;
+      symbol?: string;
+      name?: string;
+      decimals?: number;
+      balance?: string;
+      balance_formatted?: string;
+      logo?: string;
+      thumbnail?: string;
+      usd_price?: number;
+      usd_value?: number;
+    }
+    
+    const tokens: DiscoveredToken[] = response.toJSON().map((token: MoralisTokenResponse) => ({
       address: token.token_address as Address,
       symbol: token.symbol || 'UNKNOWN',
       name: token.name || 'Unknown Token',
