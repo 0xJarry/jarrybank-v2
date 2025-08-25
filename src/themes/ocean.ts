@@ -7,8 +7,6 @@ export const oceanTheme = {
   name: 'Ocean',
   id: 'ocean',
   cssContent: `
-@import "tailwindcss";
-
 :root {
   --background: hsl(200 50% 98%);
   --foreground: hsl(200 30% 15%);

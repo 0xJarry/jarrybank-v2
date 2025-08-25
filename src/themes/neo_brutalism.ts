@@ -2,8 +2,6 @@ export const neoBrutalismTheme = {
   name: 'Neo Brutalism',
   id: 'neo-brutalism',
   cssContent: `
-@import "tailwindcss";
-
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(0 0% 0%);

@@ -2,8 +2,6 @@ export const claudeTheme = {
   name: 'Claude',
   id: 'claude',
   cssContent: `
-  @import "tailwindcss";
-  
   :root {
   --background: hsl(48 33.3333% 97.0588%);
   --foreground: hsl(48 19.6078% 20%);

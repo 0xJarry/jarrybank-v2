@@ -2,14 +2,6 @@
 
 This directory contains the theme system for JarryBank. Each theme is a separate file that defines colors, shadows, and other design tokens.
 
-## Current Themes
-
-- **Neo Brutalism** (`neo_brutalism.ts`) - Default theme with red primary and yellow secondary
-- **Ocean** (`ocean.ts`) - Deep blue and teal color scheme
-- **Sunset** (`sunset.ts`) - Warm orange and pink color scheme
-- **Twitter** (`twitter.ts`) - Twitter-inspired blue theme
-- **Claude** (`claude.ts`) - Claude-inspired warm theme
-
 ## How to Add a New Theme
 
 **It's now super simple! Just 2 steps:**
@@ -28,7 +20,6 @@ export const forestTheme = {
   name: 'Forest',
   id: 'forest',
   cssContent: `
-@import "tailwindcss";
 
 :root {
   --background: hsl(120 30% 98%);
@@ -273,24 +264,3 @@ The system expects these CSS custom properties (keep the exact names):
 3. **Theme Provider** (`src/components/providers/ThemeProvider.tsx`) initializes themes
 4. Themes are applied by injecting the CSS content directly into the document
 5. Light/dark mode still works independently via `next-themes`
-
-## Benefits
-
-- ✅ **Single point of entry** - themes only added in `index.ts`
-- ✅ **No duplication** - store automatically discovers themes from index
-- ✅ **Instant switching** - just inject CSS content
-- ✅ **Smooth transitions** - CSS transitions between themes
-- ✅ **Easy to add new themes** - just copy globals.css and change colors!
-- ✅ **Automatic discovery** - themes appear in switcher automatically
-- ✅ **Persistent** - themes saved to localStorage
-- ✅ **Performance** - no CSS file loading/unloading
-- ✅ **Exact format match** - works with your existing CSS structure
-
-## Pro Tips
-
-- **Copy-paste your `globals.css`** - don't rewrite it
-- **Only change the color values** - keep everything else identical
-- **Test light/dark mode** - make sure both variants look good
-- **Use consistent color schemes** - primary, secondary, accent should work together
-- **Keep shadows consistent** - they define the theme's "feel"
-- **Only edit `index.ts`** - the store automatically picks up changes

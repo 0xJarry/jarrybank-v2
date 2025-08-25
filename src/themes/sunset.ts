@@ -7,8 +7,6 @@ export const sunsetTheme = {
   name: 'Sunset',
   id: 'sunset',
   cssContent: `
-@import "tailwindcss";
-
 :root {
   --background: hsl(30 50% 98%);
   --foreground: hsl(30 30% 15%);

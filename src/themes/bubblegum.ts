@@ -2,8 +2,6 @@ export const bubblegumTheme = {
   name: 'Bubblegum',
   id: 'bubblegum',
   cssContent: `
-  @import "tailwindcss";
-  
   :root {
   --background: hsl(330 47.0588% 93.3333%);
   --foreground: hsl(0 0% 35.6863%);

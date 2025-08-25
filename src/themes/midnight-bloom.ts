@@ -2,8 +2,6 @@ export const midnightBloomTheme = {
   name: 'Midnight Bloom',
   id: 'midnight-bloom',
   cssContent: `
-  @import "tailwindcss";
-  
   :root {
   --background: hsl(0 0% 97.6471%);
   --foreground: hsl(0 0% 20%);

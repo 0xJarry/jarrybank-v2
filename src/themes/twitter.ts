@@ -2,8 +2,6 @@ export const twitterTheme = {
   name: 'Twitter',
   id: 'twitter',
   cssContent: `
-  @import "tailwindcss";
-  
   :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(210 25% 7.8431%);
