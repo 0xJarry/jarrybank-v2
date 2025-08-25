@@ -25,8 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Initialize theme immediately when HTML loads
+              // Initialize theme immediately when HTML loads (client-side only)
               (function() {
+                if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
                 try {
                   const stored = localStorage.getItem('jarrybank-theme-store');
                   if (stored) {
